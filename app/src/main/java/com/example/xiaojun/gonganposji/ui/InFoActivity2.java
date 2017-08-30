@@ -39,6 +39,7 @@ import com.example.xiaojun.gonganposji.dialog.QueRenDialog;
 import com.example.xiaojun.gonganposji.dialog.TiJIaoDialog;
 import com.example.xiaojun.gonganposji.utils.FileUtil;
 import com.example.xiaojun.gonganposji.utils.GsonUtil;
+import com.example.xiaojun.gonganposji.view.AutoFitTextureView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -119,7 +120,7 @@ public class InFoActivity2 extends Activity {
     private static boolean isTrue3=true;
     private static boolean isTrue4=true;
     private FaceDet mFaceDet;
-    private TextureView videoView;
+    private AutoFitTextureView videoView;
     private ImageView imageView;
     private MediaPlayer mediaPlayer=null;
     private IVLCVout vlcVout=null;
@@ -384,8 +385,8 @@ public class InFoActivity2 extends Activity {
 
     private void initView() {
 
-        videoView= (TextureView) findViewById(R.id.fff);
-       // videoView.setAspectRatio(16,9);
+        videoView= (AutoFitTextureView) findViewById(R.id.fff);
+        videoView.setAspectRatio(4,3);
         imageView= (ImageView) findViewById(R.id.ffff);
         jiemian= (LinearLayout) findViewById(R.id.jiemian);
         tishi= (TextView) findViewById(R.id.tishi);
@@ -581,9 +582,9 @@ public class InFoActivity2 extends Activity {
 
             } else {
                 isTrue2 = true;
-                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "读取身份证信息失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
-                tastyToast.setGravity(Gravity.CENTER, 0, 0);
-                tastyToast.show();
+//                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "读取身份证信息失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+//                tastyToast.setGravity(Gravity.CENTER, 0, 0);
+//                tastyToast.show();
 
             }
         }
@@ -941,13 +942,16 @@ public class InFoActivity2 extends Activity {
 
 
         if (vlcVout!=null){
-
-            mediaPlayer=null;
             vlcVout.removeCallback(callback);
             callback=null;
             vlcVout=null;
         }
 
+        if (mediaPlayer!=null){
+            media.release();
+            media=null;
+            mediaPlayer=null;
+        }
 
 
         isTrue4=false;
