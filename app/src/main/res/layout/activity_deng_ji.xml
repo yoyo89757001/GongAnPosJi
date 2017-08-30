@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/beijin"
+    android:layout_height="match_parent"
+    tools:context="com.example.xiaojun.gonganposji.ui.DengJiActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/touxiang"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/bidui_tv"
+                    android:ems="1"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_weight="2"
+            android:background="@drawable/baisetouming"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:layout_height="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="填写个人信息"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:background="@drawable/huiseyuanjiao"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名："
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/blake"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/editText"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/blake2"
+                    android:layout_height="match_parent"
+                    />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/huiseyuanjiao"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="来访日期："
+                    android:textColor="@color/blake"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/riqi"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/blake2"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@+id/textView" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:background="@color/tabtextcolo"
+                    android:layout_toLeftOf="@+id/imageView"
+                    android:layout_height="match_parent"
+                    android:id="@+id/view" />
+
+                <ImageView
+                    android:src="@drawable/xjt"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/imageView" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/huiseyuanjiao"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="受访部门(或楼层)："
+                    android:textColor="@color/blake"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/bumen"
+                    android:imeOptions="actionNext"
+                    android:textSize="14sp"
+                    android:maxLength="16"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:layout_toRightOf="@+id/textView2"
+                    android:background="@null"
+                    android:textColor="@color/blake2"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
+
+                <!--<View-->
+                    <!--android:layout_width="1dp"-->
+                    <!--android:background="@color/tabtextcolo"-->
+                    <!--android:layout_toLeftOf="@+id/imageView2"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:id="@+id/view2" />-->
+
+                <!--<ImageView-->
+                    <!--android:src="@drawable/xjt"-->
+                    <!--android:layout_width="70dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:padding="26dp"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:id="@+id/imageView2" />-->
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:background="@drawable/huiseyuanjiao"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="受访人："
+                    android:textColor="@color/blake"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:maxLength="16"
+                    android:gravity="center_vertical"
+                    android:id="@+id/shoufang"
+                    android:textColor="@color/blake2"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:background="@drawable/huiseyuanjiao"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="来访人数："
+                    android:textColor="@color/blake"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:text="1"
+                    android:singleLine="true"
+                    android:maxLength="10"
+                    android:textStyle="bold"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
+                    android:gravity="center_vertical"
+                    android:id="@+id/renshu"
+                    android:textColor="@color/blake2"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="120dp"
+                android:text="确认预约"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:id="@+id/queren2"
+                android:gravity="center"
+                android:background="@drawable/jiaohu6"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="44dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

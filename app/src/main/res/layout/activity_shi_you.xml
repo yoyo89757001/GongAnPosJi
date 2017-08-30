@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/beijin"
+    tools:context="com.example.xiaojun.gonganposji.ui.DengJiActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="来访事由"
+        android:layout_marginTop="40dp"
+        android:textSize="26sp"
+        android:id="@+id/dddd"
+
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/write"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_below="@+id/dddd"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="140dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/l1"
+                android:layout_marginRight="-20dp"
+                android:layout_marginBottom="-20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="40dp"
+                    android:background="@drawable/lfsy"
+                    android:gravity="center"
+                    android:text="业务"
+                    android:textColor="@color/huang"
+                    android:textSize="22sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/l3"
+                android:layout_marginTop="-20dp"
+                android:layout_marginRight="-20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:text="面试"
+                    android:textColor="@color/huang"
+                    android:gravity="center"
+                    android:textSize="22sp"
+
+                    android:layout_margin="40dp"
+                    android:background="@drawable/lfsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/l2"
+                android:layout_marginBottom="-20dp"
+                android:layout_marginLeft="-20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <TextView
+                    android:text="合作"
+                    android:textColor="@color/huang"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:layout_margin="40dp"
+                    android:background="@drawable/lfsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/l4"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginTop="-20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:text="其它"
+                    android:textColor="@color/huang"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:layout_margin="40dp"
+                    android:background="@drawable/lfsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

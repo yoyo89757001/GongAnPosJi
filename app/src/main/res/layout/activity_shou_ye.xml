@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:id="@+id/dd"
+            android:background="@drawable/gonganlogo"
+            android:layout_height="50dp" />
+
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout2">
+
+            <TextView
+                android:text="人证合一智能识别系统"
+                android:layout_marginLeft="6dp"
+                android:textSize="18sp"
+                android:textColor="@color/blake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="INTELLIGENT IDENTIFICAION SYSTEM"
+                android:layout_marginLeft="6dp"
+                android:textSize="14sp"
+                android:textColor="@color/blake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/beijing"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:id="@+id/dengji"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/jiaohu8"/>
+
+        <ImageView
+            android:layout_width="120dp"
+            android:id="@+id/shezhi"
+            android:scaleType="fitXY"
+            android:layout_height="120dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/jiaohu9"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
