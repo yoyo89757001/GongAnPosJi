@@ -94,17 +94,18 @@
         android:id="@+id/linearLayout2">
 
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:id="@+id/dd22"
             android:layout_gravity="center_vertical"
             android:background="@drawable/gonganlogo"
-            android:layout_height="24dp"
+            android:layout_height="40dp"
             />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content">
             <TextView
                 android:text="人证合一智能识别系统"
@@ -154,14 +155,13 @@
                     android:textColor="@color/write"
                     android:textSize="12sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/name"
-                    android:layout_width="66dp"
+                    android:layout_width="62dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="4dp"
                     android:background="@drawable/zidonghuoqu10"
-                    android:focusable="false"
-                   android:gravity="center"
+                    android:gravity="center_vertical|center_horizontal"
                     android:textColor="@color/blake"
                     android:textSize="12sp" />
 
@@ -175,7 +175,7 @@
 
                 <EditText
                     android:id="@+id/shenfenzheng"
-                    android:layout_width="150dp"
+                    android:layout_width="148dp"
                     android:layout_height="30dp"
                     android:textSize="12sp"
                     android:focusable="false"
@@ -576,7 +576,7 @@
             android:textColor="@color/write"
             android:background="@drawable/jiaohu"
             android:layout_width="120dp"
-            android:layout_height="40dp" />
+            android:layout_height="42dp" />
 
     </LinearLayout>
 </LinearLayout>

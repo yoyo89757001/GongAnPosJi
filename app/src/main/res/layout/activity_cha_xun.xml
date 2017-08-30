@@ -10,6 +10,7 @@
 <com.example.xiaojun.gonganposji.view.X5WebView
     android:layout_width="match_parent"
     android:id="@+id/webwiew"
+    android:layout_below="@+id/op"
     android:layout_height="match_parent">
 
 </com.example.xiaojun.gonganposji.view.X5WebView>

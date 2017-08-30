@@ -76,10 +76,11 @@ import okhttp3.ResponseBody;
 
 
 public class InFoActivity2 extends Activity {
-    private EditText name,shenfengzheng,xingbie,mingzu,chusheng,dianhua,fazhengjiguan,
+    private EditText shenfengzheng,xingbie,mingzu,chusheng,dianhua,fazhengjiguan,
             youxiaoqixian,zhuzhi,fanghao,chepaihao,shibiejieguo,xiangsifdu;
     private ImageView zhengjianzhao,xianchengzhao;
     private Button button;
+    private TextView name;
     private File mSavePhotoFile;
   //  private HorizontalProgressBarWithNumber progressBarWithNumber;
    // public static final String HOST="http://192.168.0.104:8080";
@@ -90,7 +91,7 @@ public class InFoActivity2 extends Activity {
   //  public static final String HOST="http://192.168.2.101:8081";
    // public static final String HOST="http://174p2704z3.51mypc.cn:11100";
   //  public static final String HOST="http://192.168.2.43:8080";
-   public static final int TIMEOUT = 1000 * 60;
+    public static final int TIMEOUT = 1000 * 60;
     private static boolean isTrue=true;
     private static boolean isTrue2=true;
     private boolean bidui=false;
@@ -113,13 +114,13 @@ public class InFoActivity2 extends Activity {
     private IdentityInfo info;
     private Bitmap zhengjianBitmap;
     private byte[] images;
-    private byte[] fringerprint;
+  //  private byte[] fringerprint;
   //  private String fringerprintData;
   //  private final int REQUEST_TAKE_PHOTO=33;
     private  String zhuji=null;
     private static boolean isTrue3=true;
     private static boolean isTrue4=true;
-    private FaceDet mFaceDet;
+    private FaceDet mFaceDet=null;
     private AutoFitTextureView videoView;
     private ImageView imageView;
     private MediaPlayer mediaPlayer=null;
@@ -391,7 +392,7 @@ public class InFoActivity2 extends Activity {
         jiemian= (LinearLayout) findViewById(R.id.jiemian);
         tishi= (TextView) findViewById(R.id.tishi);
 
-        name= (EditText) findViewById(R.id.name);
+        name= (TextView) findViewById(R.id.name);
         shenfengzheng= (EditText) findViewById(R.id.shenfenzheng);
         xingbie= (EditText) findViewById(R.id.xingbie);
         mingzu= (EditText) findViewById(R.id.mingzu);
@@ -521,7 +522,7 @@ public class InFoActivity2 extends Activity {
                     images = IdCard.getIdCardImage();
                     zhengjianBitmap = IdCard.decodeIdCardImage(images);
                     // luyq add 增加指纹信息
-                    fringerprint = IdCard.getFringerPrint();
+                    //fringerprint = IdCard.getFringerPrint();
                     //fringerprintData = Utils.getFingerInfo(fringerprint, InFoActivity2.this);
                 }
             } catch (TelpoException e) {
@@ -553,7 +554,7 @@ public class InFoActivity2 extends Activity {
 
                 //设置信息
                 beepManager.playBeepSoundAndVibrate();
-                name.setText(info.getName());
+                name.setText(info.getName().trim());
                 xingbie.setText(info.getSex());
                 Log.d("GetIDInfoTask", info.getSex());
                 shenfengzheng.setText(info.getNo());
@@ -737,10 +738,8 @@ public class InFoActivity2 extends Activity {
 
 
                             if (bitmapBig!=null){
-                                Log.d("InFoActivity2", "bitmapBig.getWidth():" + bitmapBig.getWidth());
-                                Log.d("InFoActivity2", "bitmapBig.getHeight():" + bitmapBig.getHeight());
-                                List<VisionDetRet> results = mFaceDet.detect(bitmapBig);
 
+                                List<VisionDetRet> results = mFaceDet.detect(bitmapBig);
 
                                 if (results != null) {
 
@@ -952,7 +951,10 @@ public class InFoActivity2 extends Activity {
             media=null;
             mediaPlayer=null;
         }
-
+        if (libvlc!=null){
+            libvlc.release();
+            libvlc=null;
+        }
 
         isTrue4=false;
         isTrue3=false;

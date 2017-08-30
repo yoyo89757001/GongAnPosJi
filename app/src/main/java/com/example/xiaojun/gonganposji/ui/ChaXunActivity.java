@@ -109,6 +109,15 @@ public class ChaXunActivity extends Activity {
 
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webView!=null){
+            webView.removeAllViews();
+
+        }
 
     }
 }
