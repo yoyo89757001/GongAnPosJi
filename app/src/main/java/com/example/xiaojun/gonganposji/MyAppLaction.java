@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.example.xiaojun.gonganposji.dialog.JiaZaiDialog;
+import com.example.xiaojun.gonganposji.dialog.JiuDianBean;
 import com.example.xiaojun.gonganposji.ui.InFoActivity2;
 import com.example.xiaojun.gonganposji.utils.LibVLCUtil;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,7 @@ public class MyAppLaction extends Application{
     public static FaceDet mFaceDet;
     public static String sip=null;
     public static LibVLC libvlc;
-
+    public static JiuDianBean jiuDianBean=null;
 
    // public static CascadeClassifier mJavaDetector;
 
@@ -95,6 +96,23 @@ public class MyAppLaction extends Application{
             @Override
             public void onFailure(Exception e) {
                 Log.d("MyAppLaction", e.getMessage()+"获取摄像头异常");
+
+            }
+
+        });
+
+
+        Type resultType3 = new TypeToken<String>() {
+        }.getType();
+        Reservoir.getAsync("jiudian", resultType3, new ReservoirGetCallback<JiuDianBean>() {
+            @Override
+            public void onSuccess(final JiuDianBean i) {
+                jiuDianBean=i;
+
+            }
+
+            @Override
+            public void onFailure(Exception e) {
 
             }
 

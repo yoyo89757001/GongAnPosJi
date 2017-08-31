@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
+import com.example.xiaojun.gonganposji.MyAppLaction;
 import com.example.xiaojun.gonganposji.R;
+import com.example.xiaojun.gonganposji.dialog.JiuDianBean;
 import com.example.xiaojun.gonganposji.view.X5WebView;
 import com.google.gson.reflect.TypeToken;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -23,12 +25,14 @@ public class ChaXunActivity extends Activity {
     private X5WebView webView;
     private TextView title;
     private ImageView famhui;
+    private JiuDianBean jiuDianBean=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cha_xun);
         webView= (X5WebView) findViewById(R.id.webwiew);
+        jiuDianBean= MyAppLaction.jiuDianBean;
 
         title= (TextView) findViewById(R.id.title);
         title.setText("比对记录");
@@ -82,7 +86,7 @@ public class ChaXunActivity extends Activity {
         Reservoir.getAsync("zhuji", resultType2, new ReservoirGetCallback<String>() {
             @Override
             public void onSuccess(final String i) {
-                String str ="系统管理员"; //默认环境，已是UTF-8编码
+                String str =jiuDianBean.getName(); //默认环境，已是UTF-8编码
                 String strGBK = null;
                 try {
                     strGBK = URLEncoder.encode(str,"UTF-8");
@@ -90,7 +94,7 @@ public class ChaXunActivity extends Activity {
                     e.printStackTrace();
 
                 }
-                System.out.println(strGBK);
+               // System.out.println(strGBK);
 
                 webView.loadUrl(i+"/police/ipad.html?accountName="+strGBK);
 

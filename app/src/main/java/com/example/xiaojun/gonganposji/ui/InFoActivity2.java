@@ -35,6 +35,7 @@ import com.example.xiaojun.gonganposji.beans.Photos;
 import com.example.xiaojun.gonganposji.beans.ShiBieBean;
 import com.example.xiaojun.gonganposji.beans.UserInfoBena;
 import com.example.xiaojun.gonganposji.dialog.JiaZaiDialog;
+import com.example.xiaojun.gonganposji.dialog.JiuDianBean;
 import com.example.xiaojun.gonganposji.dialog.QueRenDialog;
 import com.example.xiaojun.gonganposji.dialog.TiJIaoDialog;
 import com.example.xiaojun.gonganposji.utils.FileUtil;
@@ -132,7 +133,7 @@ public class InFoActivity2 extends Activity {
     private static int count=1;
     private static final int MESSAGE_QR_SUCCESS = 1;
     private  LibVLC libvlc;
-
+    private JiuDianBean jiuDianBean=null;
 
 
     Handler mHandler2 = new Handler() {
@@ -179,6 +180,8 @@ public class InFoActivity2 extends Activity {
 
         mFaceDet= MyAppLaction.mFaceDet;
         libvlc=MyAppLaction.libvlc;
+        jiuDianBean=MyAppLaction.jiuDianBean;
+
         isTrue3=true;
         isTrue4=true;
 
@@ -413,7 +416,7 @@ public class InFoActivity2 extends Activity {
             public void onClick(View v) {
 
 
-                if (!userInfoBena.getCertNumber().equals("")){
+                if (!userInfoBena.getCertNumber().equals("") && jiuDianBean!=null){
                     try {
                         if (bidui){
                             link_save();
@@ -551,12 +554,10 @@ public class InFoActivity2 extends Activity {
                     async = null;
                 }
 
-
                 //设置信息
                 beepManager.playBeepSoundAndVibrate();
                 name.setText(info.getName().trim());
                 xingbie.setText(info.getSex());
-                Log.d("GetIDInfoTask", info.getSex());
                 shenfengzheng.setText(info.getNo());
                 mingzu.setText(info.getNation());
                 String time = info.getBorn().substring(0, 4) + "-" + info.getBorn().substring(4, 6) + "-" + info.getBorn().substring(6, 8);
@@ -652,9 +653,8 @@ public class InFoActivity2 extends Activity {
                 @Override
                 public void run() {
 
-
                     try {
-                        Thread.sleep(7000);
+                        Thread.sleep(6000);
                         if (mediaPlayer.isPlaying()) {
 
                             startThread();
@@ -874,7 +874,14 @@ public class InFoActivity2 extends Activity {
 
                         }catch (Exception e){
                             Log.d("InFoActivity2", e.getMessage()+"");
-
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "截图时发生未知错误,请关闭后重试", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                     tastyToast.setGravity(Gravity.CENTER, 0, 0);
+                                      tastyToast.show();
+                                }
+                            });
                         }
 
 
@@ -1050,7 +1057,7 @@ public class InFoActivity2 extends Activity {
                 .add("organ",userInfoBena.getCertOrg())
                 .add("termStart",userInfoBena.getEffDate())
                 .add("termEnd",userInfoBena.getExpDate())
-                .add("accountId","1")
+                .add("accountId",jiuDianBean.getId())
                 .add("result",biduijieguo)
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
@@ -1094,7 +1101,7 @@ public class InFoActivity2 extends Activity {
 
                     ResponseBody body = response.body();
                     String ss=body.string().trim();
-                    Log.d("InFoActivity", "ss" + ss);
+                  //  Log.d("InFoActivity", "ss" + ss);
                     if (ss.contains("1")){
 
                         runOnUiThread(new Runnable() {
@@ -1433,12 +1440,12 @@ public class InFoActivity2 extends Activity {
 
                     }
                 });
-                Log.d("AllConnects", "请求识别失败"+e.getMessage());
+               // Log.d("AllConnects", "请求识别失败"+e.getMessage());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("AllConnects", "请求识别成功"+call.request().toString());
+              //  Log.d("AllConnects", "请求识别成功"+call.request().toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1454,7 +1461,7 @@ public class InFoActivity2 extends Activity {
                     ResponseBody body = response.body();
                     String ss=body.string();
 
-                    Log.d("AllConnects", "aa   "+ss);
+                  //  Log.d("AllConnects", "aa   "+ss);
 
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
@@ -1538,7 +1545,7 @@ public class InFoActivity2 extends Activity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("AllConnects", "请求识别失败"+e.getMessage());
+              //  Log.d("AllConnects", "请求识别失败"+e.getMessage());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1555,7 +1562,7 @@ public class InFoActivity2 extends Activity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("AllConnects", "请求识别成功"+call.request().toString());
+              //  Log.d("AllConnects", "请求识别成功"+call.request().toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

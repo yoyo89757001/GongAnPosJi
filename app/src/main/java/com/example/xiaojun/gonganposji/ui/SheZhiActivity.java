@@ -12,18 +12,22 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.anupcowkur.reservoir.ReservoirPutCallback;
 import com.example.xiaojun.gonganposji.R;
+import com.example.xiaojun.gonganposji.dialog.XiuGaiJiuDianDialog;
 import com.example.xiaojun.gonganposji.dialog.XiuGaiXinXiDialog;
 import com.google.gson.reflect.TypeToken;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.lang.reflect.Type;
 
+import static com.example.xiaojun.gonganposji.MyAppLaction.jiuDianBean;
+
 public class SheZhiActivity extends Activity {
-    private Button ipDiZHI,gengxin,chaxun,zhuji2;
+    private Button ipDiZHI,gengxin,chaxun,zhuji2,jiudian;
     private TextView title;
     private ImageView famhui;
     private String ip=null;
     private String zhuji=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +167,45 @@ public class SheZhiActivity extends Activity {
             public void onClick(View v) {
                 startActivity(new Intent(SheZhiActivity.this,ChaXunActivity.class));
 
+            }
+        });
+
+        jiudian= (Button) findViewById(R.id.jiudian);
+        jiudian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final XiuGaiJiuDianDialog dianDialog=new XiuGaiJiuDianDialog(SheZhiActivity.this);
+                dianDialog.setOnQueRenListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Reservoir.putAsync("jiudian",dianDialog.getJiuDianBean(), new ReservoirPutCallback() {
+                            @Override
+                            public void onSuccess() {
+                                TastyToast.makeText(SheZhiActivity.this,"保存成功",TastyToast.LENGTH_LONG,TastyToast.INFO).show();
+                                dianDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                TastyToast.makeText(SheZhiActivity.this,"保存失败",TastyToast.LENGTH_LONG,TastyToast.INFO).show();
+                                dianDialog.dismiss();
+                            }
+                        });
+
+
+                    }
+                });
+                dianDialog.setQuXiaoListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dianDialog.dismiss();
+                    }
+                });
+                if (jiuDianBean!=null){
+                    dianDialog.setContents(jiuDianBean.getId(),jiuDianBean.getName());
+                }
+                dianDialog.show();
             }
         });
 
