@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.example.xiaojun.gonganposji.R;
 
 
@@ -30,7 +29,7 @@ public class XiuGaiJiuDianDialog extends Dialog {
         View mView = LayoutInflater.from(getContext()).inflate(R.layout.xiugaidialog3, null);
 
         jiudianname= (EditText) mView.findViewById(R.id.xiangce);
-        idid= (EditText) findViewById(R.id.idid);
+        idid= (EditText)mView.findViewById(R.id.idid);
        // title2= (TextView) mView.findViewById(R.id.title2);
         l1= (Button)mView. findViewById(R.id.queren);
         l2= (Button) mView.findViewById(R.id.quxiao);

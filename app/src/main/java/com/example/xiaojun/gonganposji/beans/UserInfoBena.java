@@ -14,8 +14,8 @@ public class UserInfoBena {
     private String certOrg;
     private String effDate;
     private String expDate;
-    private String cardPhoto;
-    private String scanPhoto;
+    private String cardPhoto=null;
+    private String scanPhoto=null;
     private String type;
 
     public UserInfoBena(String partyName, String gender, String nation, String bornDay, String certAddress, String certNumber, String certOrg, String effDate, String expDate, String cardPhoto, String scanPhoto, String type) {
@@ -113,6 +113,9 @@ public class UserInfoBena {
     }
 
     public String getCardPhoto() {
+        if (cardPhoto==null){
+            cardPhoto="";
+        }
         return cardPhoto;
     }
 
@@ -121,6 +124,9 @@ public class UserInfoBena {
     }
 
     public String getScanPhoto() {
+        if (scanPhoto==null){
+            scanPhoto="";
+        }
         return scanPhoto;
     }
 

@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -134,6 +135,9 @@ public class InFoActivity2 extends Activity {
     private static final int MESSAGE_QR_SUCCESS = 1;
     private  LibVLC libvlc;
     private JiuDianBean jiuDianBean=null;
+    private boolean isBaoCun=false;
+    private boolean isReadCard=false;
+
 
 
     Handler mHandler2 = new Handler() {
@@ -181,6 +185,7 @@ public class InFoActivity2 extends Activity {
         mFaceDet= MyAppLaction.mFaceDet;
         libvlc=MyAppLaction.libvlc;
         jiuDianBean=MyAppLaction.jiuDianBean;
+
 
         isTrue3=true;
         isTrue4=true;
@@ -419,12 +424,14 @@ public class InFoActivity2 extends Activity {
                 if (!userInfoBena.getCertNumber().equals("") && jiuDianBean!=null){
                     try {
                         if (bidui){
+                            isBaoCun=true;
                             link_save();
                         }else {
                             final QueRenDialog dialog=new QueRenDialog(InFoActivity2.this,"比对不通过,你确定要保存");
                             dialog.setOnPositiveListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    isBaoCun=true;
                                     link_save();
                                     dialog.dismiss();
 
@@ -617,6 +624,7 @@ public class InFoActivity2 extends Activity {
             bos.flush();
             bos.close();
             shengfenzhengPath=path;
+            isReadCard=true;
 
             //开启摄像头
             kaishiPaiZhao();
@@ -764,23 +772,23 @@ public class InFoActivity2 extends Activity {
                                         int yy2 = 0;
                                         int ww = bitmapBig.getWidth();
                                         int hh = bitmapBig.getHeight();
-                                        if (face.getRight() - 160 >= 0) {
-                                            xx = face.getRight() - 160;
+                                        if (face.getRight() - 200 >= 0) {
+                                            xx = face.getRight() - 200;
                                         } else {
                                             xx = 0;
                                         }
-                                        if (face.getTop() - 120 >= 0) {
-                                            yy = face.getTop() - 120;
+                                        if (face.getTop() - 220 >= 0) {
+                                            yy = face.getTop() - 220;
                                         } else {
                                             yy = 0;
                                         }
-                                        if (xx + 200 <= ww) {
-                                            xx2 = 200;
+                                        if (xx + 400 <= ww) {
+                                            xx2 = 400;
                                         } else {
                                             xx2 = ww - xx ;
                                         }
-                                        if (yy + 300 <= hh) {
-                                            yy2 = 300;
+                                        if (yy + 480 <= hh) {
+                                            yy2 = 480;
                                         } else {
                                             yy2 = hh - yy ;
                                         }
@@ -1057,7 +1065,7 @@ public class InFoActivity2 extends Activity {
                 .add("organ",userInfoBena.getCertOrg())
                 .add("termStart",userInfoBena.getEffDate())
                 .add("termEnd",userInfoBena.getExpDate())
-                .add("accountId",jiuDianBean.getId())
+                .add("accountId",jiuDianBean.getId()+"")
                 .add("result",biduijieguo)
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
@@ -1070,7 +1078,7 @@ public class InFoActivity2 extends Activity {
                 .post(body)
                 .url(zhuji + "/saveCompareResult.do");
 
-        if (tiJIaoDialog==null){
+        if (tiJIaoDialog==null && !InFoActivity2.this.isFinishing()){
             tiJIaoDialog=new TiJIaoDialog(InFoActivity2.this);
             tiJIaoDialog.show();
         }
@@ -1100,28 +1108,30 @@ public class InFoActivity2 extends Activity {
                 try {
 
                     ResponseBody body = response.body();
-                    String ss=body.string().trim();
-                  //  Log.d("InFoActivity", "ss" + ss);
-                    if (ss.contains("1")){
+                    String ss = body.string().trim();
+                     // Log.d("InFoActivity", "ss" + ss);
+                    if (isBaoCun) {
+
+                    if (ss.contains("1")) {
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"保存成功",TastyToast.LENGTH_LONG,TastyToast.INFO);
-                                tastyToast.setGravity(Gravity.CENTER,0,0);
+                                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                                tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
 
                             }
                         });
 
                         finish();
-                    }else  if (ss.equals("这个是黑名单")) {
+                    } else if (ss.equals("这个是黑名单")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                final QueRenDialog dialog=new QueRenDialog(InFoActivity2.this,"请注意,这个是黑名单!");
+                                final QueRenDialog dialog = new QueRenDialog(InFoActivity2.this, "请注意,这个是黑名单!");
                                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                                 dialog.setOnPositiveListener(new View.OnClickListener() {
                                     @Override
@@ -1134,16 +1144,14 @@ public class InFoActivity2 extends Activity {
                             }
                         });
 
-                    }
-
-                    else {
+                    } else {
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"保存失败",TastyToast.LENGTH_LONG,TastyToast.ERROR);
-                                tastyToast.setGravity(Gravity.CENTER,0,0);
+                                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
 
                             }
@@ -1151,6 +1159,7 @@ public class InFoActivity2 extends Activity {
                         finish();
 
                     }
+                }
 
                 }catch (Exception e){
 
@@ -1461,7 +1470,7 @@ public class InFoActivity2 extends Activity {
                     ResponseBody body = response.body();
                     String ss=body.string();
 
-                  //  Log.d("AllConnects", "aa   "+ss);
+                    Log.d("AllConnects", "aa   "+ss);
 
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
@@ -1621,8 +1630,21 @@ public class InFoActivity2 extends Activity {
 //    /* form的分割线,自己定义 */
 //        String boundary = "xx--------------------------------------------------------------xx";
         RequestBody body = new FormBody.Builder()
+                .add("cardNumber",userInfoBena.getCertNumber())
+                .add("name",userInfoBena.getPartyName())
+                .add("gender",userInfoBena.getGender())
+                .add("birthday",userInfoBena.getBornDay())
+                .add("address",userInfoBena.getCertAddress())
                 .add("cardPhoto",userInfoBena.getCardPhoto())
                 .add("scanPhoto",userInfoBena.getScanPhoto())
+                .add("organ",userInfoBena.getCertOrg())
+                .add("termStart",userInfoBena.getEffDate())
+                .add("termEnd",userInfoBena.getExpDate())
+                .add("accountId",jiuDianBean.getId()+"")
+                .add("count",count+"")
+                .add("homeNumber",fanghao.getText().toString().trim())
+                .add("phone",dianhua.getText().toString().trim())
+                .add("carNumber",chepaihao.getText().toString().trim())
                 .build();
 
         Request.Builder requestBuilder = new Request.Builder()
@@ -1775,6 +1797,18 @@ public class InFoActivity2 extends Activity {
 
 
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            if (isReadCard && !isBaoCun){
+                link_save();
+
+            }
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

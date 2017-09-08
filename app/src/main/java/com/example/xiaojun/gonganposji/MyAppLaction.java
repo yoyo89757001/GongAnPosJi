@@ -102,17 +102,18 @@ public class MyAppLaction extends Application{
         });
 
 
-        Type resultType3 = new TypeToken<String>() {
+        Type resultType3 = new TypeToken<JiuDianBean>() {
         }.getType();
         Reservoir.getAsync("jiudian", resultType3, new ReservoirGetCallback<JiuDianBean>() {
             @Override
             public void onSuccess(final JiuDianBean i) {
                 jiuDianBean=i;
-
+              //  Log.d("MyAppLaction", "jiuDianBean:" + jiuDianBean);
             }
 
             @Override
             public void onFailure(Exception e) {
+                Log.d("MyAppLaction", e.getMessage()+"ddd");
 
             }
 
