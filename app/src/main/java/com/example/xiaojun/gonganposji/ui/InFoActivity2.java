@@ -290,7 +290,7 @@ public class InFoActivity2 extends Activity {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
 
-                Log.d("InFoActivity2", "改222222"+width+"   "+height);
+             //   Log.d("InFoActivity2", "改222222"+width+"   "+height);
 
                 vlcVout.attachViews();
 
@@ -299,7 +299,7 @@ public class InFoActivity2 extends Activity {
             @Override
             public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
 
-                Log.d("InFoActivity2", "改222222变");
+             //   Log.d("InFoActivity2", "改222222变");
             }
 
             @Override
@@ -772,8 +772,8 @@ public class InFoActivity2 extends Activity {
                                         int yy2 = 0;
                                         int ww = bitmapBig.getWidth();
                                         int hh = bitmapBig.getHeight();
-                                        if (face.getRight() - 200 >= 0) {
-                                            xx = face.getRight() - 200;
+                                        if (face.getRight() - 220 >= 0) {
+                                            xx = face.getRight() - 220;
                                         } else {
                                             xx = 0;
                                         }
@@ -978,7 +978,14 @@ public class InFoActivity2 extends Activity {
         isTrue2=false;
         isTrue=false;
 
-
+        if (jiaZaiDialog!=null && jiaZaiDialog.isShowing()){
+            jiaZaiDialog.dismiss();
+            jiaZaiDialog=null;
+        }
+        if (tiJIaoDialog!=null && tiJIaoDialog.isShowing()){
+            tiJIaoDialog.dismiss();
+            tiJIaoDialog=null;
+        }
     }
 
     @Override
@@ -1109,7 +1116,7 @@ public class InFoActivity2 extends Activity {
 
                     ResponseBody body = response.body();
                     String ss = body.string().trim();
-                     // Log.d("InFoActivity", "ss" + ss);
+                 //     Log.d("InFoActivity", "ss" + ss);
                     if (isBaoCun) {
 
                     if (ss.contains("1")) {
