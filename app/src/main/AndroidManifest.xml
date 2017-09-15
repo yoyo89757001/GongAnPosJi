@@ -21,13 +21,12 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.nfc"
-        android:required="false"/>
+        android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.NFC"/>
-
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:name=".MyAppLaction"
@@ -45,52 +44,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-        <!--android:name=".ui.InFoActivity"-->
-        <!--android:screenOrientation="landscape"-->
-        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.InFoActivity" -->
+        <!-- android:screenOrientation="landscape" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
+        <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name=".ui.InFoActivity2"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
-        <!--<activity-->
-        <!--android:name=".ui.VlcActivity"-->
-        <!--android:screenOrientation="landscape"-->
-        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.VlcActivity" -->
+        <!-- android:screenOrientation="landscape" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
         <activity
             android:name=".ui.SheZhiActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <!--<activity-->
-        <!--android:name=".ui.InFoActivity3"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.InFoActivity3" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
+        <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name=".ui.ChaXunActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ui.ShiYouActivity"
+        <activity android:name=".ui.HuZhaoActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name=".ui.DengJiActivity"
-            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ui.DatePickActivity"
-            android:theme="@style/MyDialogStyleBottom" />
-
-        <activity android:name=".ui.DaYingActivity"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             />
     </application>
 

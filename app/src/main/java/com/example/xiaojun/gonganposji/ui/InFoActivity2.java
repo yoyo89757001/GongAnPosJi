@@ -27,11 +27,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.anupcowkur.reservoir.Reservoir;
-import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.example.xiaojun.gonganposji.MyAppLaction;
 import com.example.xiaojun.gonganposji.R;
+import com.example.xiaojun.gonganposji.beans.BaoCunBean;
+import com.example.xiaojun.gonganposji.beans.BaoCunBeanDao;
 import com.example.xiaojun.gonganposji.beans.Photos;
 import com.example.xiaojun.gonganposji.beans.ShiBieBean;
 import com.example.xiaojun.gonganposji.beans.UserInfoBena;
@@ -44,7 +43,6 @@ import com.example.xiaojun.gonganposji.utils.GsonUtil;
 import com.example.xiaojun.gonganposji.view.AutoFitTextureView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.google.zxing.other.BeepManager;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.telpo.tps550.api.TelpoException;
@@ -52,17 +50,14 @@ import com.telpo.tps550.api.idcard.IdCard;
 import com.telpo.tps550.api.idcard.IdentityInfo;
 import com.tzutalin.dlib.FaceDet;
 import com.tzutalin.dlib.VisionDetRet;
-
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
@@ -105,8 +100,6 @@ public class InFoActivity2 extends Activity {
     private String filePath2=null;
     private File file1=null;
  //   private File file2=null;
-    private  String ip=null;
-    long c=0;
     private Thread thread;
     private String shengfenzhengPath=null;
 //    private static int lian=0;
@@ -119,7 +112,6 @@ public class InFoActivity2 extends Activity {
   //  private byte[] fringerprint;
   //  private String fringerprintData;
   //  private final int REQUEST_TAKE_PHOTO=33;
-    private  String zhuji=null;
     private static boolean isTrue3=true;
     private static boolean isTrue4=true;
     private FaceDet mFaceDet=null;
@@ -134,9 +126,10 @@ public class InFoActivity2 extends Activity {
     private static int count=1;
     private static final int MESSAGE_QR_SUCCESS = 1;
     private  LibVLC libvlc;
-    private JiuDianBean jiuDianBean=null;
     private boolean isBaoCun=false;
     private boolean isReadCard=false;
+    private BaoCunBeanDao baoCunBeanDao=null;
+    private BaoCunBean baoCunBean=null;
 
 
 
@@ -181,47 +174,20 @@ public class InFoActivity2 extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhujiemian2);
+        baoCunBeanDao=MyAppLaction.myAppLaction.getDaoSession().getBaoCunBeanDao();
+        baoCunBean=baoCunBeanDao.load(123456L);
 
         mFaceDet= MyAppLaction.mFaceDet;
         libvlc=MyAppLaction.libvlc;
-        jiuDianBean=MyAppLaction.jiuDianBean;
 
 
         isTrue3=true;
         isTrue4=true;
 
 
-        Type resultType2 = new TypeToken<String>() {
-        }.getType();
-        Reservoir.getAsync("zhuji", resultType2, new ReservoirGetCallback<String>() {
-            @Override
-            public void onSuccess(final String i) {
-                zhuji=i;
-
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.d("InFoActivity", "获取本地异常ip:"+e.getMessage());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
-                        tastyToast.setGravity(Gravity.CENTER,0,0);
-                        tastyToast.show();
-
-                    }
-                });
-
-
-            }
-
-        });
-
         String fn = "bbbb.jpg";
         FileUtil.isExists(FileUtil.PATH, fn);
         mSavePhotoFile=new File( FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn);
-
 
         beepManager = new BeepManager(this, R.raw.beep);
         new Thread(new Runnable() {
@@ -256,7 +222,6 @@ public class InFoActivity2 extends Activity {
         sensorInfoReceiver = new SensorInfoReceiver();
         registerReceiver(sensorInfoReceiver, intentFilter1);
 
-
         userInfoBena=new UserInfoBena();
 
 
@@ -270,8 +235,8 @@ public class InFoActivity2 extends Activity {
         });
 
         initView();
-        ip=MyAppLaction.sip;
-        if (ip!=null){
+
+        if (baoCunBean!=null){
             bofang();
         }else {
             Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "请先设置摄像头IP地址", TastyToast.LENGTH_LONG, TastyToast.ERROR);
@@ -327,7 +292,7 @@ public class InFoActivity2 extends Activity {
 
 
                                 if (mediaPlayer != null) {
-                                    final Uri uri=Uri.parse("rtsp://"+ip+"/user=admin&password=&channel=1&stream=0.sdp");
+                                    final Uri uri=Uri.parse("rtsp://"+baoCunBean.getCameraIP()+"/user=admin&password=&channel=1&stream=0.sdp");
                                     media = new Media(libvlc, uri);
                                     mediaPlayer.setMedia(media);
                                     mediaPlayer.play();
@@ -421,7 +386,7 @@ public class InFoActivity2 extends Activity {
             public void onClick(View v) {
 
 
-                if (!userInfoBena.getCertNumber().equals("") && jiuDianBean!=null){
+                if (!userInfoBena.getCertNumber().equals("") && baoCunBean!=null){
                     try {
                         if (bidui){
                             isBaoCun=true;
@@ -1009,6 +974,7 @@ public class InFoActivity2 extends Activity {
             jiaZaiDialog=null;
         }
         unregisterReceiver(sensorInfoReceiver);
+        baoCunBeanDao=null;
         super.onDestroy();
 
     }
@@ -1072,7 +1038,7 @@ public class InFoActivity2 extends Activity {
                 .add("organ",userInfoBena.getCertOrg())
                 .add("termStart",userInfoBena.getEffDate())
                 .add("termEnd",userInfoBena.getExpDate())
-                .add("accountId",jiuDianBean.getId()+"")
+                .add("accountId",baoCunBean.getJiudianID()+"")
                 .add("result",biduijieguo)
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
@@ -1083,7 +1049,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(body)
-                .url(zhuji + "/saveCompareResult.do");
+                .url(baoCunBean.getZhuji() + "/saveCompareResult.do");
 
         if (!InFoActivity2.this.isFinishing() && tiJIaoDialog==null  ){
             tiJIaoDialog=new TiJIaoDialog(InFoActivity2.this);
@@ -1110,7 +1076,7 @@ public class InFoActivity2 extends Activity {
                     tiJIaoDialog.dismiss();
                     tiJIaoDialog=null;
                 }
-                Log.d("AllConnects", "请求识别成功"+call.request().toString());
+               // Log.d("AllConnects", "请求识别成功"+call.request().toString());
                 //获得返回体
                 try {
 
@@ -1434,7 +1400,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(mBody)
-                .url(zhuji + "/AppFileUploadServlet?FilePathPath=cardFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
+                .url(baoCunBean.getZhuji() + "/AppFileUploadServlet?FilePathPath=cardFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
 
         // step 3：创建 Call 对象
         Call call = okHttpClient.newCall(requestBuilder.build());
@@ -1477,7 +1443,7 @@ public class InFoActivity2 extends Activity {
                     ResponseBody body = response.body();
                     String ss=body.string();
 
-                    Log.d("AllConnects", "aa   "+ss);
+                  //  Log.d("AllConnects", "aa   "+ss);
 
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
@@ -1551,7 +1517,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(mBody)
-                .url(zhuji + "/AppFileUploadServlet?FilePathPath=scanFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
+                .url(baoCunBean.getZhuji() + "/AppFileUploadServlet?FilePathPath=scanFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
 
 
         // step 3：创建 Call 对象
@@ -1647,7 +1613,7 @@ public class InFoActivity2 extends Activity {
                 .add("organ",userInfoBena.getCertOrg())
                 .add("termStart",userInfoBena.getEffDate())
                 .add("termEnd",userInfoBena.getExpDate())
-                .add("accountId",jiuDianBean.getId()+"")
+                .add("accountId",baoCunBean.getJiudianID()+"")
                 .add("count",count+"")
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
@@ -1657,7 +1623,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(body)
-                .url(zhuji + "/compare.do");
+                .url(baoCunBean.getZhuji() + "/compare.do");
 
 
         // step 3：创建 Call 对象
@@ -1686,7 +1652,7 @@ public class InFoActivity2 extends Activity {
                     ResponseBody body = response.body();
                     // Log.d("AllConnects", "识别结果返回"+response.body().string());
                     String ss=body.string();
-                    Log.d("InFoActivity", ss);
+                  //  Log.d("InFoActivity", ss);
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
                     final ShiBieBean zhaoPianBean=gson.fromJson(jsonObject,ShiBieBean.class);

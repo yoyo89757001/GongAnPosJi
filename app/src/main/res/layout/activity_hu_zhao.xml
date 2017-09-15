@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:id="@+id/shiping_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextureView
+            android:layout_width="match_parent"
+            android:id="@+id/fff"
+            android:layout_centerInParent="true"
+            android:layout_height="300dp" />
+
+        <Button
+            android:layout_width="120dp"
+            android:background="@drawable/jiaohu"
+            android:textSize="18sp"
+            android:id="@+id/paizhao"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:text="拍 照"
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_height="54sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ggg"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@drawable/huzhaobg"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="140dp"
+                android:layout_height="180dp">
+                <ImageView
+                    android:background="@drawable/zhongkong"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/jiahao2"
+                    android:layout_height="match_parent" />
+                <ImageView
+                   android:id="@+id/zhengjianim"
+                    android:scaleType="fitXY"
+                    android:layout_width="140dp"
+                    android:layout_height="180dp" />
+            </FrameLayout>
+
+
+            <TextView
+                android:textSize="18sp"
+                android:text="证件照"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="140dp"
+                android:layout_height="180dp">
+                <ImageView
+                    android:background="@drawable/zhongkong"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/jiahao2"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:id="@+id/xianchangim"
+                    android:layout_width="140dp"
+                    android:layout_height="180dp" />
+            </FrameLayout>
+
+            <TextView
+                android:textSize="18sp"
+                android:text="现场照"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/wxnavpage"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/huiseyuanjiao"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="姓名："
+                    android:textColor="@color/blake"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="16"
+                    android:singleLine="true"
+                    android:textColor="@color/blake2"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/huiseyuanjiao"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="性别："
+                    android:textColor="@color/blake"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/xingbie"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="16"
+                    android:singleLine="true"
+                    android:textColor="@color/blake2"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/huiseyuanjiao"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="电话："
+                android:textColor="@color/blake"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/dianhua"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="16"
+                android:singleLine="true"
+                android:textColor="@color/blake2"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/huiseyuanjiao"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="房间号："
+                android:textColor="@color/blake"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/fangjianhao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="16"
+                android:singleLine="true"
+                android:textColor="@color/blake2"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/baocun"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/jiaohu3"
+            android:text="保 存"
+            android:textColor="@color/write"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.xiaojun.gonganposji.R;
 
@@ -16,13 +17,22 @@ public class ShouYeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shou_ye);
 
-        ImageView imageView= (ImageView) findViewById(R.id.dengji);
+        TextView imageView= (TextView) findViewById(R.id.dengji2);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(ShouYeActivity.this,InFoActivity2.class),2);
             }
         });
+
+        TextView imageView22= (TextView) findViewById(R.id.dengji3);
+        imageView22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ShouYeActivity.this,HuZhaoActivity.class));
+            }
+        });
+
         ImageView imageView2= (ImageView) findViewById(R.id.shezhi);
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
