@@ -74,7 +74,8 @@ import okhttp3.ResponseBody;
 
 public class InFoActivity2 extends Activity {
     private EditText shenfengzheng,xingbie,mingzu,chusheng,dianhua,fazhengjiguan,
-            youxiaoqixian,zhuzhi,fanghao,chepaihao,shibiejieguo,xiangsifdu;
+            youxiaoqixian,zhuzhi,fanghao,shibiejieguo,xiangsifdu;
+    private TextView chepai;
     private ImageView zhengjianzhao,xianchengzhao;
     private Button button;
     private TextView name;
@@ -375,7 +376,7 @@ public class InFoActivity2 extends Activity {
         youxiaoqixian= (EditText) findViewById(R.id.qixian);
         zhuzhi= (EditText) findViewById(R.id.dizhi);
         fanghao= (EditText) findViewById(R.id.fanghao);
-        chepaihao= (EditText) findViewById(R.id.chepai);
+        chepai= (TextView) findViewById(R.id.chepai);
         xiangsifdu= (EditText) findViewById(R.id.xiangsidu);
         shibiejieguo= (EditText) findViewById(R.id.jieguo);
         zhengjianzhao= (ImageView) findViewById(R.id.zhengjian);
@@ -1042,7 +1043,7 @@ public class InFoActivity2 extends Activity {
                 .add("result",biduijieguo)
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
-                .add("carNumber",chepaihao.getText().toString().trim())
+                .add("carNumber",chepai.getText().toString().trim())
                 .add("score",xiangsi)
                 .build();
         // Log.d("InFoActivity2", userInfoBena.getGender());
@@ -1617,7 +1618,7 @@ public class InFoActivity2 extends Activity {
                 .add("count",count+"")
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
-                .add("carNumber",chepaihao.getText().toString().trim())
+                .add("carNumber",chepai.getText().toString().trim())
                 .build();
 
         Request.Builder requestBuilder = new Request.Builder()

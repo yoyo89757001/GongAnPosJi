@@ -8,22 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.anupcowkur.reservoir.Reservoir;
-import com.anupcowkur.reservoir.ReservoirGetCallback;
-import com.anupcowkur.reservoir.ReservoirPutCallback;
 import com.example.xiaojun.gonganposji.MyAppLaction;
 import com.example.xiaojun.gonganposji.R;
 import com.example.xiaojun.gonganposji.beans.BaoCunBean;
 import com.example.xiaojun.gonganposji.beans.BaoCunBeanDao;
 import com.example.xiaojun.gonganposji.dialog.XiuGaiJiuDianDialog;
 import com.example.xiaojun.gonganposji.dialog.XiuGaiXinXiDialog;
-import com.google.gson.reflect.TypeToken;
 import com.sdsmdg.tastytoast.TastyToast;
 
-import java.lang.reflect.Type;
-
-import static com.example.xiaojun.gonganposji.MyAppLaction.jiuDianBean;
 
 public class SheZhiActivity extends Activity {
     private Button ipDiZHI,gengxin,chaxun,zhuji2,jiudian;

@@ -25,10 +25,10 @@ import java.io.IOException;
 public class MyAppLaction extends Application{
     private File mCascadeFile;
     public static FaceDet mFaceDet;
-    public static String sip=null;
+   // public static String sip=null;
     public static LibVLC libvlc;
-    public static JiuDianBean jiuDianBean=null;
-    public static String zhuji=null;
+   // public static JiuDianBean jiuDianBean=null;
+   // public static String zhuji=null;
     public DaoMaster mDaoMaster;
     public DaoSession mDaoSession;
     public static MyAppLaction myAppLaction;

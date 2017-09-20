@@ -125,7 +125,6 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onHardwareAccelerationError(IVLCVout vlcVout) {
 
-
 //                                if (mediaPlayer != null && baoCunBean.getCameraIP() !=null) {
 //                                    final Uri uri=Uri.parse("rtsp://"+baoCunBean.getCameraIP()+"/user=admin&password=&channel=1&stream=0.sdp");
 //                                    media = new Media(libvlc, uri);
@@ -144,11 +143,10 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 videoView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
                     @Override
                     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                        Log.d("HuZhaoActivity", "fffffffffffffff");
+                      //  Log.d("HuZhaoActivity", "fffffffffffffff");
                         vlcVout.setVideoView(videoView);
                         vlcVout.addCallback(callback);
                         vlcVout.attachViews();
-
 
                     }
 
