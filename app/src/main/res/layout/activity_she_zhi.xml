@@ -136,7 +136,8 @@
         <TextView
             android:textColor="@color/sbc_header_text"
             android:textSize="18sp"
-            android:text="V1.0.0"
+            android:id="@+id/banben"
+            android:text="V1.2.1"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

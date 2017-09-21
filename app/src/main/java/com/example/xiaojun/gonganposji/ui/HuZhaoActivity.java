@@ -856,7 +856,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
 
                     ResponseBody body = response.body();
                     String ss = body.string().trim();
-                    Log.d("HuZhaoActivity", ss);
+                  //  Log.d("HuZhaoActivity", ss);
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
                     HuZhaoFanHuiBean bean=gson.fromJson(jsonObject,HuZhaoFanHuiBean.class);

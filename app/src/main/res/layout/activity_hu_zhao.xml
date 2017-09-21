@@ -29,11 +29,15 @@
 
     </RelativeLayout>
 
+
+
     <LinearLayout
         android:id="@+id/ggg"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -181,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="房号:"
+                    android:gravity="center_vertical"
                     android:drawableLeft="@drawable/xinghao"
                     android:textColor="@color/blake"
                     android:textSize="16sp" />
@@ -283,5 +288,12 @@
     </LinearLayout>
     </LinearLayout>
 
-
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:text="护照住宿登记"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
