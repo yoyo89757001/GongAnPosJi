@@ -77,8 +77,12 @@
             android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="stateHidden"
-            />
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ui.DatePickActivity"
+            android:theme="@style/MyDialogStyleBottom" />
+
+
     </application>
 
 </manifest>

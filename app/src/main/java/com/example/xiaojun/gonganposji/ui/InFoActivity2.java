@@ -35,7 +35,6 @@ import com.example.xiaojun.gonganposji.beans.Photos;
 import com.example.xiaojun.gonganposji.beans.ShiBieBean;
 import com.example.xiaojun.gonganposji.beans.UserInfoBena;
 import com.example.xiaojun.gonganposji.dialog.JiaZaiDialog;
-import com.example.xiaojun.gonganposji.dialog.JiuDianBean;
 import com.example.xiaojun.gonganposji.dialog.QueRenDialog;
 import com.example.xiaojun.gonganposji.dialog.TiJIaoDialog;
 import com.example.xiaojun.gonganposji.utils.FileUtil;
@@ -131,6 +130,8 @@ public class InFoActivity2 extends Activity {
     private boolean isReadCard=false;
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
+    private String zhuji=null;
+
 
 
 
@@ -178,13 +179,19 @@ public class InFoActivity2 extends Activity {
         baoCunBeanDao=MyAppLaction.myAppLaction.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
 
+        if (baoCunBean!=null && baoCunBean.getZhuji()!=null){
+            zhuji=baoCunBean.getZhuji();
+        }else {
+            Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+            tastyToast.setGravity(Gravity.CENTER,0,0);
+            tastyToast.show();
+        }
+
         mFaceDet= MyAppLaction.mFaceDet;
         libvlc=MyAppLaction.libvlc;
 
-
         isTrue3=true;
         isTrue4=true;
-
 
         String fn = "bbbb.jpg";
         FileUtil.isExists(FileUtil.PATH, fn);
@@ -237,7 +244,7 @@ public class InFoActivity2 extends Activity {
 
         initView();
 
-        if (baoCunBean!=null){
+        if (baoCunBean!=null && baoCunBean.getCameraIP()!=null){
             bofang();
         }else {
             Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "请先设置摄像头IP地址", TastyToast.LENGTH_LONG, TastyToast.ERROR);
@@ -291,14 +298,12 @@ public class InFoActivity2 extends Activity {
                     @Override
                     public void onSurfacesCreated(IVLCVout vlcVout) {
 
-
                                 if (mediaPlayer != null) {
                                     final Uri uri=Uri.parse("rtsp://"+baoCunBean.getCameraIP()+"/user=admin&password=&channel=1&stream=0.sdp");
                                     media = new Media(libvlc, uri);
                                     mediaPlayer.setMedia(media);
                                     mediaPlayer.play();
                                 }
-
                     }
 
                     @Override
@@ -377,6 +382,15 @@ public class InFoActivity2 extends Activity {
         zhuzhi= (EditText) findViewById(R.id.dizhi);
         fanghao= (EditText) findViewById(R.id.fanghao);
         chepai= (TextView) findViewById(R.id.chepai);
+        chepai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(InFoActivity2.this, DatePickActivity.class);
+                startActivityForResult(intent,2);
+
+            }
+        });
         xiangsifdu= (EditText) findViewById(R.id.xiangsidu);
         shibiejieguo= (EditText) findViewById(R.id.jieguo);
         zhengjianzhao= (ImageView) findViewById(R.id.zhengjian);
@@ -387,7 +401,7 @@ public class InFoActivity2 extends Activity {
             public void onClick(View v) {
 
 
-                if (!userInfoBena.getCertNumber().equals("") && baoCunBean!=null){
+                if (!fanghao.getText().toString().trim().equals("") && baoCunBean!=null){
                     try {
                         if (bidui){
                             isBaoCun=true;
@@ -425,7 +439,7 @@ public class InFoActivity2 extends Activity {
                     }
 
                 }else {
-                    Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"请先读取身份证信息",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                    Toast tastyToast= TastyToast.makeText(InFoActivity2.this,"请先读取信息,填写房号!",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                     tastyToast.setGravity(Gravity.CENTER,0,0);
                     tastyToast.show();
                 }
@@ -440,6 +454,17 @@ public class InFoActivity2 extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == Activity.RESULT_OK && requestCode == 2) {
+                // 选择预约时间的页面被关闭
+                String date = data.getStringExtra("date");
+                chepai.setText(date);
+            }
+
+    }
 
     private class SensorInfoReceiver extends BroadcastReceiver {
 
@@ -1043,14 +1068,15 @@ public class InFoActivity2 extends Activity {
                 .add("result",biduijieguo)
                 .add("homeNumber",fanghao.getText().toString().trim())
                 .add("phone",dianhua.getText().toString().trim())
-                .add("carNumber",chepai.getText().toString().trim())
+                .add("carNumber","")
+                .add("outTime2",chepai.getText().toString().trim())
                 .add("score",xiangsi)
                 .build();
         // Log.d("InFoActivity2", userInfoBena.getGender());
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(body)
-                .url(baoCunBean.getZhuji() + "/saveCompareResult.do");
+                .url(zhuji+ "/saveCompareResult.do");
 
         if (!InFoActivity2.this.isFinishing() && tiJIaoDialog==null  ){
             tiJIaoDialog=new TiJIaoDialog(InFoActivity2.this);
@@ -1190,10 +1216,7 @@ public class InFoActivity2 extends Activity {
 //                animator.start();
 //            }
 //        });
-//    }
-
-
-
+//        }
 //        Thread thread=  new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -1401,7 +1424,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(mBody)
-                .url(baoCunBean.getZhuji() + "/AppFileUploadServlet?FilePathPath=cardFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
+                .url(zhuji + "/AppFileUploadServlet?FilePathPath=cardFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
 
         // step 3：创建 Call 对象
         Call call = okHttpClient.newCall(requestBuilder.build());
@@ -1518,7 +1541,7 @@ public class InFoActivity2 extends Activity {
         Request.Builder requestBuilder = new Request.Builder()
                 // .header("Content-Type", "application/json")
                 .post(mBody)
-                .url(baoCunBean.getZhuji() + "/AppFileUploadServlet?FilePathPath=scanFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
+                .url(zhuji + "/AppFileUploadServlet?FilePathPath=scanFilePath&AllowFileType=.jpg,.gif,.jpeg,.bmp,.png&MaxFileSize=10");
 
 
         // step 3：创建 Call 对象
