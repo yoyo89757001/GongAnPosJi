@@ -277,7 +277,6 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                     tastyToast.show();
                 }
 
-
                 break;
             case R.id.paizhao:
                 try {
