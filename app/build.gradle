@@ -50,4 +50,5 @@ dependencies {
    // compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
+
 }

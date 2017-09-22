@@ -6,33 +6,26 @@ package com.example.xiaojun.gonganposji.beans;
 
 public class HuZhaoFanHuiBean {
 
+
     /**
-     * sid : 0
-     * createTime : {"nanos":175000000,"time":1505982149175,"minutes":22,"seconds":29,"hours":16,"month":8,"year":117,"timezoneOffset":-480,"day":4,"date":21}
-     * pageSize : 0
-     * dtoResult : 0
+     * createTime : {"date":21,"day":4,"hours":19,"minutes":3,"month":8,"nanos":814000000,"seconds":32,"time":1505991812814,"timezoneOffset":-480,"year":117}
      * dtoDesc : 保存成功
-     * userAccount :
-     * modifyTime : {"nanos":175000000,"time":1505982149175,"minutes":22,"seconds":29,"hours":16,"month":8,"year":117,"timezoneOffset":-480,"day":4,"date":21}
+     * dtoResult : 0
+     * modifyTime : {"date":21,"day":4,"hours":19,"minutes":3,"month":8,"nanos":814000000,"seconds":32,"time":1505991812814,"timezoneOffset":-480,"year":117}
      * pageNum : 0
+     * pageSize : 0
+     * sid : 0
+     * userAccount :
      */
 
-    private int sid;
     private CreateTimeBean createTime;
-    private int pageSize;
-    private int dtoResult;
     private String dtoDesc;
-    private String userAccount;
+    private int dtoResult;
     private ModifyTimeBean modifyTime;
     private int pageNum;
-
-    public int getSid() {
-        return sid;
-    }
-
-    public void setSid(int sid) {
-        this.sid = sid;
-    }
+    private int pageSize;
+    private int sid;
+    private String userAccount;
 
     public CreateTimeBean getCreateTime() {
         return createTime;
@@ -40,22 +33,6 @@ public class HuZhaoFanHuiBean {
 
     public void setCreateTime(CreateTimeBean createTime) {
         this.createTime = createTime;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getDtoResult() {
-        return dtoResult;
-    }
-
-    public void setDtoResult(int dtoResult) {
-        this.dtoResult = dtoResult;
     }
 
     public String getDtoDesc() {
@@ -66,12 +43,12 @@ public class HuZhaoFanHuiBean {
         this.dtoDesc = dtoDesc;
     }
 
-    public String getUserAccount() {
-        return userAccount;
+    public int getDtoResult() {
+        return dtoResult;
     }
 
-    public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
+    public void setDtoResult(int dtoResult) {
+        this.dtoResult = dtoResult;
     }
 
     public ModifyTimeBean getModifyTime() {
@@ -90,93 +67,61 @@ public class HuZhaoFanHuiBean {
         this.pageNum = pageNum;
     }
 
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
     public static class CreateTimeBean {
         /**
-         * nanos : 175000000
-         * time : 1505982149175
-         * minutes : 22
-         * seconds : 29
-         * hours : 16
-         * month : 8
-         * year : 117
-         * timezoneOffset : -480
-         * day : 4
          * date : 21
+         * day : 4
+         * hours : 19
+         * minutes : 3
+         * month : 8
+         * nanos : 814000000
+         * seconds : 32
+         * time : 1505991812814
+         * timezoneOffset : -480
+         * year : 117
          */
 
-        private int nanos;
-        private long time;
-        private int minutes;
-        private int seconds;
-        private int hours;
-        private int month;
-        private int year;
-        private int timezoneOffset;
-        private int day;
         private int date;
+        private int day;
+        private int hours;
+        private int minutes;
+        private int month;
+        private int nanos;
+        private int seconds;
+        private long time;
+        private int timezoneOffset;
+        private int year;
 
-        public int getNanos() {
-            return nanos;
+        public int getDate() {
+            return date;
         }
 
-        public void setNanos(int nanos) {
-            this.nanos = nanos;
-        }
-
-        public long getTime() {
-            return time;
-        }
-
-        public void setTime(long time) {
-            this.time = time;
-        }
-
-        public int getMinutes() {
-            return minutes;
-        }
-
-        public void setMinutes(int minutes) {
-            this.minutes = minutes;
-        }
-
-        public int getSeconds() {
-            return seconds;
-        }
-
-        public void setSeconds(int seconds) {
-            this.seconds = seconds;
-        }
-
-        public int getHours() {
-            return hours;
-        }
-
-        public void setHours(int hours) {
-            this.hours = hours;
-        }
-
-        public int getMonth() {
-            return month;
-        }
-
-        public void setMonth(int month) {
-            this.month = month;
-        }
-
-        public int getYear() {
-            return year;
-        }
-
-        public void setYear(int year) {
-            this.year = year;
-        }
-
-        public int getTimezoneOffset() {
-            return timezoneOffset;
-        }
-
-        public void setTimezoneOffset(int timezoneOffset) {
-            this.timezoneOffset = timezoneOffset;
+        public void setDate(int date) {
+            this.date = date;
         }
 
         public int getDay() {
@@ -187,102 +132,102 @@ public class HuZhaoFanHuiBean {
             this.day = day;
         }
 
-        public int getDate() {
-            return date;
+        public int getHours() {
+            return hours;
         }
 
-        public void setDate(int date) {
-            this.date = date;
+        public void setHours(int hours) {
+            this.hours = hours;
+        }
+
+        public int getMinutes() {
+            return minutes;
+        }
+
+        public void setMinutes(int minutes) {
+            this.minutes = minutes;
+        }
+
+        public int getMonth() {
+            return month;
+        }
+
+        public void setMonth(int month) {
+            this.month = month;
+        }
+
+        public int getNanos() {
+            return nanos;
+        }
+
+        public void setNanos(int nanos) {
+            this.nanos = nanos;
+        }
+
+        public int getSeconds() {
+            return seconds;
+        }
+
+        public void setSeconds(int seconds) {
+            this.seconds = seconds;
+        }
+
+        public long getTime() {
+            return time;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
+
+        public int getTimezoneOffset() {
+            return timezoneOffset;
+        }
+
+        public void setTimezoneOffset(int timezoneOffset) {
+            this.timezoneOffset = timezoneOffset;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
         }
     }
 
     public static class ModifyTimeBean {
         /**
-         * nanos : 175000000
-         * time : 1505982149175
-         * minutes : 22
-         * seconds : 29
-         * hours : 16
-         * month : 8
-         * year : 117
-         * timezoneOffset : -480
-         * day : 4
          * date : 21
+         * day : 4
+         * hours : 19
+         * minutes : 3
+         * month : 8
+         * nanos : 814000000
+         * seconds : 32
+         * time : 1505991812814
+         * timezoneOffset : -480
+         * year : 117
          */
 
-        private int nanos;
-        private long time;
-        private int minutes;
-        private int seconds;
-        private int hours;
-        private int month;
-        private int year;
-        private int timezoneOffset;
-        private int day;
         private int date;
+        private int day;
+        private int hours;
+        private int minutes;
+        private int month;
+        private int nanos;
+        private int seconds;
+        private long time;
+        private int timezoneOffset;
+        private int year;
 
-        public int getNanos() {
-            return nanos;
+        public int getDate() {
+            return date;
         }
 
-        public void setNanos(int nanos) {
-            this.nanos = nanos;
-        }
-
-        public long getTime() {
-            return time;
-        }
-
-        public void setTime(long time) {
-            this.time = time;
-        }
-
-        public int getMinutes() {
-            return minutes;
-        }
-
-        public void setMinutes(int minutes) {
-            this.minutes = minutes;
-        }
-
-        public int getSeconds() {
-            return seconds;
-        }
-
-        public void setSeconds(int seconds) {
-            this.seconds = seconds;
-        }
-
-        public int getHours() {
-            return hours;
-        }
-
-        public void setHours(int hours) {
-            this.hours = hours;
-        }
-
-        public int getMonth() {
-            return month;
-        }
-
-        public void setMonth(int month) {
-            this.month = month;
-        }
-
-        public int getYear() {
-            return year;
-        }
-
-        public void setYear(int year) {
-            this.year = year;
-        }
-
-        public int getTimezoneOffset() {
-            return timezoneOffset;
-        }
-
-        public void setTimezoneOffset(int timezoneOffset) {
-            this.timezoneOffset = timezoneOffset;
+        public void setDate(int date) {
+            this.date = date;
         }
 
         public int getDay() {
@@ -293,12 +238,68 @@ public class HuZhaoFanHuiBean {
             this.day = day;
         }
 
-        public int getDate() {
-            return date;
+        public int getHours() {
+            return hours;
         }
 
-        public void setDate(int date) {
-            this.date = date;
+        public void setHours(int hours) {
+            this.hours = hours;
+        }
+
+        public int getMinutes() {
+            return minutes;
+        }
+
+        public void setMinutes(int minutes) {
+            this.minutes = minutes;
+        }
+
+        public int getMonth() {
+            return month;
+        }
+
+        public void setMonth(int month) {
+            this.month = month;
+        }
+
+        public int getNanos() {
+            return nanos;
+        }
+
+        public void setNanos(int nanos) {
+            this.nanos = nanos;
+        }
+
+        public int getSeconds() {
+            return seconds;
+        }
+
+        public void setSeconds(int seconds) {
+            this.seconds = seconds;
+        }
+
+        public long getTime() {
+            return time;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
+
+        public int getTimezoneOffset() {
+            return timezoneOffset;
+        }
+
+        public void setTimezoneOffset(int timezoneOffset) {
+            this.timezoneOffset = timezoneOffset;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
         }
     }
 }

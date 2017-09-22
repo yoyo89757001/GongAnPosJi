@@ -2,6 +2,7 @@ package com.example.xiaojun.gonganposji.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -82,18 +83,17 @@ public class ChaXunActivity extends Activity {
         if (baoCunBean!=null){
 
             try {
-
-                String str =baoCunBean.getJiudianName(); //默认环境，已是UTF-8编码
-                String strGBK = URLEncoder.encode(str,"UTF-8");
-                webView.loadUrl(baoCunBean.getZhuji()+"/police/ipad.html?accountName="+strGBK);
+                Log.d("ChaXunActivity", baoCunBean.getZhuji() + "/police/ipad.html?accountName=" + baoCunBean.getJiudianID());
+//                String str =baoCunBean.getJiudianName(); //默认环境，已是UTF-8编码
+//                String strGBK = URLEncoder.encode(str,"UTF-8");
+                webView.loadUrl(baoCunBean.getZhuji()+"/police/ipad.html?accoutId="+baoCunBean.getJiudianID());
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d("ChaXunActivity", e.getMessage()+"");
 
             }
 
         }
-
 
       //  Log.d("ChaXunActivity", ip + "/police/ipad.html?accountName=" + strGBK);
 

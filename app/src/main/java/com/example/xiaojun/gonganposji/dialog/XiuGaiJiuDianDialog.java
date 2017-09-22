@@ -19,7 +19,7 @@ import com.example.xiaojun.gonganposji.R;
 public class XiuGaiJiuDianDialog extends Dialog {
    // private TextView title2;
     private Button l1,l2;
-    private EditText jiudianname,idid;
+    private EditText ipip,idid,zhujidizhi;
     public XiuGaiJiuDianDialog(Context context) {
         super(context, R.style.dialog_style2);
         setCustomDialog();
@@ -28,8 +28,9 @@ public class XiuGaiJiuDianDialog extends Dialog {
     private void setCustomDialog() {
         View mView = LayoutInflater.from(getContext()).inflate(R.layout.xiugaidialog3, null);
 
-        jiudianname= (EditText) mView.findViewById(R.id.xiangce);
+        ipip= (EditText) mView.findViewById(R.id.shexiangtou);
         idid= (EditText)mView.findViewById(R.id.idid);
+        zhujidizhi= (EditText)mView.findViewById(R.id.zhuji);
        // title2= (TextView) mView.findViewById(R.id.title2);
         l1= (Button)mView. findViewById(R.id.queren);
         l2= (Button) mView.findViewById(R.id.quxiao);
@@ -37,17 +38,18 @@ public class XiuGaiJiuDianDialog extends Dialog {
         super.setContentView(mView);
     }
 
-    public void setContents(String ss, String s3){
-       if (ss!=null)
-           idid.setText(ss);
-        if (s3!=null)
-            jiudianname.setText(s3);
+    public void setContents(String id, String ip,String zhuji){
+
+        idid.setText(id);
+        ipip.setText(ip);
+        zhujidizhi.setText(zhuji);
     }
 
     public JiuDianBean getJiuDianBean(){
         JiuDianBean dianBean=new JiuDianBean();
         dianBean.setId(idid.getText().toString().trim());
-        dianBean.setName(jiudianname.getText().toString().trim());
+        dianBean.setIp(ipip.getText().toString().trim());
+        dianBean.setZhuji(zhujidizhi.getText().toString().trim());
         return dianBean;
 
     }

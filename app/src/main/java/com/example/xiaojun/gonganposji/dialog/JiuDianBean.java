@@ -6,7 +6,8 @@ package com.example.xiaojun.gonganposji.dialog;
 
 public class JiuDianBean {
     private String id;
-    private String name;
+    private String ip;
+    private String zhuji;
 
     public String getId() {
         return id;
@@ -16,11 +17,19 @@ public class JiuDianBean {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getIp() {
+        return ip;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getZhuji() {
+        return zhuji;
+    }
+
+    public void setZhuji(String zhuji) {
+        this.zhuji = zhuji;
     }
 }

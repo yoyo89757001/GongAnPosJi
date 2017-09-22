@@ -111,6 +111,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
 
         userInfoBena=new UserInfoBena();
 
+
         String fn = "bbbb.jpg";
         FileUtil.isExists(FileUtil.PATH, fn);
         mSavePhotoFile=new File( FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn);
@@ -268,7 +269,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.baocun:
-                if (!fanghao.getText().toString().equals("") && userInfoBena.getScanPhoto()!=null && userInfoBena.getCardPhoto()!=null){
+                if (!fanghao.getText().toString().equals("") && !userInfoBena.getScanPhoto().equals("") && !userInfoBena.getCardPhoto().equals("")){
                     link_save();
                 }else {
 
@@ -854,9 +855,9 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 try {
 
                     ResponseBody body = response.body();
-                    String ss = body.string().trim();
-                  //  Log.d("HuZhaoActivity", ss);
-                    JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
+                    String ss = body.string();
+                   // Log.d("HuZhaoActivity", ss);
+                    JsonObject jsonObject= GsonUtil.parse(ss.trim()).getAsJsonObject();
                     Gson gson=new Gson();
                     HuZhaoFanHuiBean bean=gson.fromJson(jsonObject,HuZhaoFanHuiBean.class);
 

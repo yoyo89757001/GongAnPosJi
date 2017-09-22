@@ -1109,7 +1109,7 @@ public class InFoActivity2 extends Activity {
 
                     ResponseBody body = response.body();
                     String ss = body.string().trim();
-                 //     Log.d("InFoActivity", "ss" + ss);
+                    //  Log.d("InFoActivity", "ss" + ss);
                     if (isBaoCun) {
 
                     if (ss.contains("1")) {
