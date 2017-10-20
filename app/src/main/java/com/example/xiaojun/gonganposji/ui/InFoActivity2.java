@@ -951,12 +951,16 @@ public class InFoActivity2 extends Activity {
             callback=null;
             vlcVout=null;
         }
-
-        if (mediaPlayer!=null){
+        if (media!=null){
             media.release();
             media=null;
+        }
+        if (mediaPlayer!=null){
+
             mediaPlayer=null;
         }
+
+
         if (libvlc!=null){
             libvlc.release();
             libvlc=null;
@@ -1041,6 +1045,9 @@ public class InFoActivity2 extends Activity {
 //    }
 
     private void link_save() {
+        try {
+
+
         //final MediaType JSON=MediaType.parse("application/json; charset=utf-8");
         //http://192.168.2.4:8080/sign?cmd=getUnSignList&subjectId=jfgsdf
         OkHttpClient okHttpClient= new OkHttpClient.Builder()
@@ -1078,8 +1085,9 @@ public class InFoActivity2 extends Activity {
                 .post(body)
                 .url(zhuji+ "/saveCompareResult.do");
 
-        if (!InFoActivity2.this.isFinishing() && tiJIaoDialog==null  ){
+        if (tiJIaoDialog==null && !InFoActivity2.this.isFinishing()  ){
             tiJIaoDialog=new TiJIaoDialog(InFoActivity2.this);
+            if (!InFoActivity2.this.isFinishing())
             tiJIaoDialog.show();
         }
 
@@ -1121,26 +1129,31 @@ public class InFoActivity2 extends Activity {
                                 Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
                                 tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
-
+                                finish();
                             }
                         });
 
-                        finish();
+
                     } else if (ss.equals("这个是黑名单")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                final QueRenDialog dialog = new QueRenDialog(InFoActivity2.this, "请注意,这个是黑名单!");
-                                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                                dialog.setOnPositiveListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        dialog.dismiss();
-                                        finish();
-                                    }
-                                });
-                                dialog.show();
+//                                final QueRenDialog dialog = new QueRenDialog(InFoActivity2.this, "请注意,这个是黑名单!");
+//                                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                                dialog.setOnPositiveListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        dialog.dismiss();
+//                                        finish();
+//                                    }
+//                                });
+//                                dialog.show();
+                                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                                tastyToast.setGravity(Gravity.CENTER, 0, 0);
+                                tastyToast.show();
+                                finish();
+
                             }
                         });
 
@@ -1153,10 +1166,10 @@ public class InFoActivity2 extends Activity {
                                 Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                                 tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
-
+                                finish();
                             }
                         });
-                        finish();
+
 
                     }
                 }
@@ -1172,7 +1185,9 @@ public class InFoActivity2 extends Activity {
             }
         });
 
-
+        }catch (Exception e){
+            Log.d("InFoActivity2", e.getMessage()+"i");
+        }
     }
 
 
@@ -1503,6 +1518,7 @@ public class InFoActivity2 extends Activity {
                 jiaZaiDialog=new JiaZaiDialog(InFoActivity2.this);
                 jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 jiaZaiDialog.setText("上传图片中...");
+                if (!InFoActivity2.this.isFinishing())
                 jiaZaiDialog.show();
             }
         });

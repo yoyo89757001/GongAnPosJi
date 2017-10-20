@@ -20,7 +20,7 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 
 public class SheZhiActivity extends Activity {
-    private Button gengxin,chaxun,jiudian;
+    private Button gengxin,chaxun,jiudian,chaxun2;
     private TextView title;
     private ImageView famhui;
     private BaoCunBeanDao baoCunBeanDao=null;
@@ -63,7 +63,13 @@ public class SheZhiActivity extends Activity {
 
             }
         });
-
+        chaxun2= (Button) findViewById(R.id.chaxun2);
+        chaxun2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SheZhiActivity.this,ChaXunHuZhaoActivity.class));
+            }
+        });
         jiudian= (Button) findViewById(R.id.jiudian);
         jiudian.setOnClickListener(new View.OnClickListener() {
             @Override

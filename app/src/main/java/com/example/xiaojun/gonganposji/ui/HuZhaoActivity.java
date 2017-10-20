@@ -83,7 +83,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
     private LinearLayout ggg;
     private Bitmap bitmap2=null;
     private String benrenPath=null;
-    private boolean isA=false;
+   // private boolean isA=false;
     private File mSavePhotoFile;
     private final int REQUEST_TAKE_PHOTO=33;
     public static final int TIMEOUT = 1000 * 60;
@@ -514,7 +514,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                     //.transform(new GlideCircleTransform(RenGongFuWuActivity.this,1, Color.parseColor("#ffffffff")))
                     .into(xianchangim);
 
-             isA=true;
+         //    isA=true;
 
             huzhaoim.setClickable(true);
 
@@ -682,6 +682,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 jiaZaiDialog=new JiaZaiDialog(HuZhaoActivity.this);
                 jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 jiaZaiDialog.setText("上传图片中...");
+                if (!HuZhaoActivity.this.isFinishing())
                 jiaZaiDialog.show();
             }
         });
@@ -818,6 +819,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
 
         if (!HuZhaoActivity.this.isFinishing() && tiJIaoDialog==null  ){
             tiJIaoDialog=new TiJIaoDialog(HuZhaoActivity.this);
+            if (!HuZhaoActivity.this.isFinishing())
             tiJIaoDialog.show();
         }
 

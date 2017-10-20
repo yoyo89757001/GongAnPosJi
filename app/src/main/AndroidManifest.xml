@@ -73,6 +73,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.ChaXunHuZhaoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
+
         <activity android:name=".ui.HuZhaoActivity"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
