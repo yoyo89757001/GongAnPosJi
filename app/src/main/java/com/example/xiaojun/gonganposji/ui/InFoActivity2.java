@@ -1692,7 +1692,7 @@ public class InFoActivity2 extends Activity {
                     ResponseBody body = response.body();
                     // Log.d("AllConnects", "识别结果返回"+response.body().string());
                     String ss=body.string();
-                  //  Log.d("InFoActivity", ss);
+                    Log.d("InFoActivity", ss);
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
                     final ShiBieBean zhaoPianBean=gson.fromJson(jsonObject,ShiBieBean.class);

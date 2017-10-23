@@ -912,7 +912,5 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
-
-
     }
 }

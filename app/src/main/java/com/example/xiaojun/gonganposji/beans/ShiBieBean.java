@@ -8,39 +8,29 @@ public class ShiBieBean {
 
 
     /**
-     * face_info_1 : {"brightness":163.76406533575317,"quality":0.9898704383522272,"rect":{"bottom":103,"left":21,"right":79,"top":46},"std_deviation":21.197982866582855}
-     * face_info_2 : {"brightness":109.66754057428214,"quality":0.9284625723958015,"rect":{"bottom":294,"left":236,"right":326,"top":205},"std_deviation":14.867884397758354}
-     * same : true
-     * score : 90.86259460449219
+     * face1 : {"rect":{"left":21,"top":46,"width":57,"height":57},"confidence":0.9999989}
+     * face2 : {"rect":{"left":-26,"top":205,"width":283,"height":283},"confidence":0.9999981}
+     * score : 86.08437
      */
 
-    private FaceInfo1Bean face_info_1;
-    private FaceInfo2Bean face_info_2;
-    private boolean same;
+    private Face1Bean face1;
+    private Face2Bean face2;
     private double score;
 
-    public FaceInfo1Bean getFace_info_1() {
-        return face_info_1;
+    public Face1Bean getFace1() {
+        return face1;
     }
 
-    public void setFace_info_1(FaceInfo1Bean face_info_1) {
-        this.face_info_1 = face_info_1;
+    public void setFace1(Face1Bean face1) {
+        this.face1 = face1;
     }
 
-    public FaceInfo2Bean getFace_info_2() {
-        return face_info_2;
+    public Face2Bean getFace2() {
+        return face2;
     }
 
-    public void setFace_info_2(FaceInfo2Bean face_info_2) {
-        this.face_info_2 = face_info_2;
-    }
-
-    public boolean isSame() {
-        return same;
-    }
-
-    public void setSame(boolean same) {
-        this.same = same;
+    public void setFace2(Face2Bean face2) {
+        this.face2 = face2;
     }
 
     public double getScore() {
@@ -51,34 +41,14 @@ public class ShiBieBean {
         this.score = score;
     }
 
-    public static class FaceInfo1Bean {
+    public static class Face1Bean {
         /**
-         * brightness : 163.76406533575317
-         * quality : 0.9898704383522272
-         * rect : {"bottom":103,"left":21,"right":79,"top":46}
-         * std_deviation : 21.197982866582855
+         * rect : {"left":21,"top":46,"width":57,"height":57}
+         * confidence : 0.9999989
          */
 
-        private double brightness;
-        private double quality;
         private RectBean rect;
-        private double std_deviation;
-
-        public double getBrightness() {
-            return brightness;
-        }
-
-        public void setBrightness(double brightness) {
-            this.brightness = brightness;
-        }
-
-        public double getQuality() {
-            return quality;
-        }
-
-        public void setQuality(double quality) {
-            this.quality = quality;
-        }
+        private double confidence;
 
         public RectBean getRect() {
             return rect;
@@ -88,34 +58,26 @@ public class ShiBieBean {
             this.rect = rect;
         }
 
-        public double getStd_deviation() {
-            return std_deviation;
+        public double getConfidence() {
+            return confidence;
         }
 
-        public void setStd_deviation(double std_deviation) {
-            this.std_deviation = std_deviation;
+        public void setConfidence(double confidence) {
+            this.confidence = confidence;
         }
 
         public static class RectBean {
             /**
-             * bottom : 103
              * left : 21
-             * right : 79
              * top : 46
+             * width : 57
+             * height : 57
              */
 
-            private int bottom;
             private int left;
-            private int right;
             private int top;
-
-            public int getBottom() {
-                return bottom;
-            }
-
-            public void setBottom(int bottom) {
-                this.bottom = bottom;
-            }
+            private int width;
+            private int height;
 
             public int getLeft() {
                 return left;
@@ -125,14 +87,6 @@ public class ShiBieBean {
                 this.left = left;
             }
 
-            public int getRight() {
-                return right;
-            }
-
-            public void setRight(int right) {
-                this.right = right;
-            }
-
             public int getTop() {
                 return top;
             }
@@ -140,37 +94,33 @@ public class ShiBieBean {
             public void setTop(int top) {
                 this.top = top;
             }
+
+            public int getWidth() {
+                return width;
+            }
+
+            public void setWidth(int width) {
+                this.width = width;
+            }
+
+            public int getHeight() {
+                return height;
+            }
+
+            public void setHeight(int height) {
+                this.height = height;
+            }
         }
     }
 
-    public static class FaceInfo2Bean {
+    public static class Face2Bean {
         /**
-         * brightness : 109.66754057428214
-         * quality : 0.9284625723958015
-         * rect : {"bottom":294,"left":236,"right":326,"top":205}
-         * std_deviation : 14.867884397758354
+         * rect : {"left":-26,"top":205,"width":283,"height":283}
+         * confidence : 0.9999981
          */
 
-        private double brightness;
-        private double quality;
         private RectBeanX rect;
-        private double std_deviation;
-
-        public double getBrightness() {
-            return brightness;
-        }
-
-        public void setBrightness(double brightness) {
-            this.brightness = brightness;
-        }
-
-        public double getQuality() {
-            return quality;
-        }
-
-        public void setQuality(double quality) {
-            this.quality = quality;
-        }
+        private double confidence;
 
         public RectBeanX getRect() {
             return rect;
@@ -180,34 +130,26 @@ public class ShiBieBean {
             this.rect = rect;
         }
 
-        public double getStd_deviation() {
-            return std_deviation;
+        public double getConfidence() {
+            return confidence;
         }
 
-        public void setStd_deviation(double std_deviation) {
-            this.std_deviation = std_deviation;
+        public void setConfidence(double confidence) {
+            this.confidence = confidence;
         }
 
         public static class RectBeanX {
             /**
-             * bottom : 294
-             * left : 236
-             * right : 326
+             * left : -26
              * top : 205
+             * width : 283
+             * height : 283
              */
 
-            private int bottom;
             private int left;
-            private int right;
             private int top;
-
-            public int getBottom() {
-                return bottom;
-            }
-
-            public void setBottom(int bottom) {
-                this.bottom = bottom;
-            }
+            private int width;
+            private int height;
 
             public int getLeft() {
                 return left;
@@ -217,20 +159,28 @@ public class ShiBieBean {
                 this.left = left;
             }
 
-            public int getRight() {
-                return right;
-            }
-
-            public void setRight(int right) {
-                this.right = right;
-            }
-
             public int getTop() {
                 return top;
             }
 
             public void setTop(int top) {
                 this.top = top;
+            }
+
+            public int getWidth() {
+                return width;
+            }
+
+            public void setWidth(int width) {
+                this.width = width;
+            }
+
+            public int getHeight() {
+                return height;
+            }
+
+            public void setHeight(int height) {
+                this.height = height;
             }
         }
     }
