@@ -9,12 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextureView
-            android:layout_width="match_parent"
-            android:id="@+id/fff"
-            android:layout_centerInParent="true"
-            android:layout_height="300dp" />
-
         <Button
             android:layout_width="120dp"
             android:background="@drawable/jiaohu"
@@ -23,9 +17,18 @@
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:text="拍 照"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="60dp"
             android:layout_alignParentBottom="true"
             android:layout_height="54sp" />
+
+        <!--<TextureView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:id="@+id/fff"-->
+            <!--android:layout_marginBottom="10dp"-->
+           <!--android:layout_above="@+id/paizhao"-->
+            <!--android:layout_height="match_parent" />-->
+
+
 
     </RelativeLayout>
 

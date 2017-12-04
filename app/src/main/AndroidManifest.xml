@@ -55,6 +55,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ui.DanPingInFoActivity2"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
         <!-- <activity -->
         <!-- android:name=".ui.VlcActivity" -->
         <!-- android:screenOrientation="landscape" -->
@@ -80,6 +87,12 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity android:name=".ui.HuZhaoActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".ui.DanPingHuZhaoActivity"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"

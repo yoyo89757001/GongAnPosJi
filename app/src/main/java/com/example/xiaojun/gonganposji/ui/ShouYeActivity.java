@@ -21,7 +21,7 @@ public class ShouYeActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(ShouYeActivity.this,InFoActivity2.class),2);
+                startActivityForResult(new Intent(ShouYeActivity.this,DanPingInFoActivity2.class),2);
             }
         });
 
@@ -29,7 +29,7 @@ public class ShouYeActivity extends Activity {
         imageView22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ShouYeActivity.this,HuZhaoActivity.class));
+                startActivity(new Intent(ShouYeActivity.this,DanPingHuZhaoActivity.class));
             }
         });
 
