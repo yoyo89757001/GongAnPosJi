@@ -27,7 +27,7 @@
             android:id="@+id/linearLayout2">
 
             <TextView
-                android:text="人证合一智能识别系统"
+                android:text="人证比对智能识别系统"
                 android:layout_marginLeft="6dp"
                 android:textSize="18sp"
                 android:textColor="@color/blake"
@@ -108,19 +108,24 @@
             android:textColor="@color/write"
             android:textSize="20sp"
             android:text="警讯公告"
+            android:gravity="center"
+            android:background="@drawable/zidonghuoqu3"
             android:layout_above="@+id/tishi_ll"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerHorizontal="true"
+            android:layout_width="110dp"
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/tishi_ll"
+            android:layout_marginTop="-4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/zidonghuoqu3"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_margin="10dp"
             android:layout_height="200dp">
 
 

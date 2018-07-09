@@ -296,31 +296,35 @@ public class InFoActivity3 extends Activity {
 
                 if ( baoCunBean!=null){
                     try {
-                        if (bidui){
+                        if (bidui && !fanghao.getText().toString().trim().equals("")){
                             isBaoCun=true;
                             link_save();
                         }else {
-                            final QueRenDialog dialog=new QueRenDialog(InFoActivity3.this,"比对不通过,你确定要保存");
-                            dialog.setOnPositiveListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    isBaoCun=true;
-                                    link_save();
-                                    dialog.dismiss();
 
-                                }
-                            });
-                            dialog.setViewShow();
-                            dialog.setButtonText("保 存");
-                            dialog.setOnQuXiaoListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                    finish();
-
-                                }
-                            });
-                            dialog.show();
+                            Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"比对未通过或房号未填写",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            tastyToast.setGravity(Gravity.CENTER,0,0);
+                            tastyToast.show();
+//                            final QueRenDialog dialog=new QueRenDialog(InFoActivity3.this,"比对不通过,你确定要保存");
+//                            dialog.setOnPositiveListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    isBaoCun=true;
+//                                    link_save();
+//                                    dialog.dismiss();
+//
+//                                }
+//                            });
+//                            dialog.setViewShow();
+//                            dialog.setButtonText("保 存");
+//                            dialog.setOnQuXiaoListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    dialog.dismiss();
+//                                    finish();
+//
+//                                }
+//                            });
+//                            dialog.show();
                         }
 
 

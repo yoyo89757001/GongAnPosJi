@@ -7,12 +7,15 @@
 
     <ImageView
         android:id="@+id/touxiang"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="4dp"
         android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="100dp" />
 
     <com.example.xiaojun.gonganposji.view.VerticalScrolledListview
         android:id="@+id/tishi"
         android:layout_marginRight="2dp"
+        android:layout_marginLeft="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/write">

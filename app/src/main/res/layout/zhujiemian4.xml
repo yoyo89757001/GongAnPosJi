@@ -27,7 +27,6 @@
         android:padding="15dp"
         android:layout_centerVertical="true"
         android:id="@+id/dd"
-        android:layout_marginLeft="16dp"
         android:src="@drawable/fanhui"
         android:layout_height="62dp" />
 
@@ -55,7 +54,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content">
             <TextView
-                android:text="人证合一智能识别系统"
+                android:text="人证比对智能识别系统"
                 android:textSize="16sp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/write"
