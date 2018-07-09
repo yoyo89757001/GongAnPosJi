@@ -59,7 +59,7 @@ public class ChaXunHuZhaoActivity extends Activity {
         webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
         webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0)
                 .getPath());
-        // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+        //  webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
         webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
 
         webView.setWebViewClient(new WebViewClient() {
@@ -84,7 +84,7 @@ public class ChaXunHuZhaoActivity extends Activity {
 //                String str =baoCunBean.getJiudianName(); //默认环境，已是UTF-8编码
 //                String strGBK = URLEncoder.encode(str,"UTF-8");
                 webView.loadUrl(baoCunBean.getZhuji()+"/police/passport.html?accountId="+baoCunBean.getJiudianID());
-
+                Log.d("ChaXunHuZhaoActivity", "护照"+baoCunBean.getZhuji() + "/police/passport.html?accountId=" + baoCunBean.getJiudianID());
             } catch (Exception e) {
                 Log.d("ChaXunActivity", e.getMessage()+"");
 

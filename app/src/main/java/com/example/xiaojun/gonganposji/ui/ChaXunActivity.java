@@ -24,6 +24,7 @@ public class ChaXunActivity extends Activity {
     private ImageView famhui;
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
+    private int type=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class ChaXunActivity extends Activity {
         webView= (WebView) findViewById(R.id.webwiew);
         baoCunBeanDao= MyAppLaction.myAppLaction.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
+        type=getIntent().getIntExtra("type",0);
 
         title= (TextView) findViewById(R.id.title);
         title.setText("比对记录");
@@ -83,10 +85,16 @@ public class ChaXunActivity extends Activity {
         if (baoCunBean!=null){
 
             try {
-                Log.d("ChaXunActivity", baoCunBean.getZhuji() + "/police/ipad.html?accountName=" + baoCunBean.getJiudianID());
+            //    Log.d("ChaXunActivity", baoCunBean.getZhuji() + "/police/ipad.html?accountName=" + baoCunBean.getJiudianID());
 //                String str =baoCunBean.getJiudianName(); //默认环境，已是UTF-8编码
 //                String strGBK = URLEncoder.encode(str,"UTF-8");
-                webView.loadUrl(baoCunBean.getZhuji()+"/police/ipad.html?accoutId="+baoCunBean.getJiudianID());
+                if (type==0){
+                    webView.loadUrl(baoCunBean.getZhuji()+"/police/ipad.html?accountId="+baoCunBean.getJiudianID());
+                    Log.d("ChaXunActivity", baoCunBean.getZhuji() + "/police/ipad.html?accountId=" + baoCunBean.getJiudianID());
+                }else {
+                    webView.loadUrl(baoCunBean.getZhuji()+"/police/tuifang.html?accountId="+baoCunBean.getJiudianID());
+                    Log.d("ChaXunActivity", baoCunBean.getZhuji() + "/police/tuifang.html?accountId=" + baoCunBean.getJiudianID());
+                }
 
             } catch (Exception e) {
                 Log.d("ChaXunActivity", e.getMessage()+"");

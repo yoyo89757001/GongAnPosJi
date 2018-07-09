@@ -1,7 +1,7 @@
 package com.example.xiaojun.gonganposji.ui;
 
 
-import android.animation.Animator;
+
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -10,21 +10,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.SurfaceTexture;
-import android.graphics.YuvImage;
-import android.hardware.Camera;
+
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.TextureView;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,14 +36,12 @@ import com.example.xiaojun.gonganposji.beans.BaoCunBeanDao;
 import com.example.xiaojun.gonganposji.beans.Photos;
 import com.example.xiaojun.gonganposji.beans.ShiBieBean;
 import com.example.xiaojun.gonganposji.beans.UserInfoBena;
-import com.example.xiaojun.gonganposji.danpingji.grg.idcard.IDCardMsg;
-import com.example.xiaojun.gonganposji.danpingji.grg.idcard.IDCardRecognition;
 import com.example.xiaojun.gonganposji.dialog.JiaZaiDialog;
 import com.example.xiaojun.gonganposji.dialog.QueRenDialog;
 import com.example.xiaojun.gonganposji.dialog.TiJIaoDialog;
 import com.example.xiaojun.gonganposji.utils.FileUtil;
 import com.example.xiaojun.gonganposji.utils.GsonUtil;
-import com.example.xiaojun.gonganposji.view.AutoFitTextureView;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.zxing.other.BeepManager;
@@ -55,20 +49,13 @@ import com.sdsmdg.tastytoast.TastyToast;
 import com.telpo.tps550.api.TelpoException;
 import com.telpo.tps550.api.idcard.IdCard;
 import com.telpo.tps550.api.idcard.IdentityInfo;
-import com.tzutalin.dlib.FaceDet;
-import com.tzutalin.dlib.VisionDetRet;
 
-import org.videolan.libvlc.IVLCVout;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -83,7 +70,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 
-public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Callback  {
+public class InFoActivity3 extends Activity {
     private EditText shenfengzheng,xingbie,mingzu,chusheng,dianhua,fazhengjiguan,
             youxiaoqixian,zhuzhi,fanghao,shibiejieguo,xiangsifdu;
     private TextView chepai;
@@ -105,24 +92,28 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
     private static boolean isTrue2=true;
     private boolean bidui=false;
     private Bitmap bitmapBig=null;
+    private GetIDInfoTask async=null;
     private UserInfoBena userInfoBena=null;
     private SensorInfoReceiver sensorInfoReceiver;
   //  private String filePath=null;
     private String filePath2=null;
     private File file1=null;
+ //   private File file2=null;
+    private Thread thread;
     private String shengfenzhengPath=null;
-    private IDCardRecognition mIDCardRecognition;
+//    private static int lian=0;
+//    private Handler mhandler = null;
+//    private int iDetect = 0;
+    private BeepManager beepManager;
+    private IdentityInfo info;
     private Bitmap zhengjianBitmap;
     private byte[] images;
   //  private byte[] fringerprint;
   //  private String fringerprintData;
   //  private final int REQUEST_TAKE_PHOTO=33;
-   // private static boolean isTrue3=true;
+    private static boolean isTrue3=true;
     private static boolean isTrue4=true;
-    private FaceDet mFaceDet=null;
-    private SurfaceView surfaceView;
-    private ImageView imageView;
-    private TextView tishi;
+
     private LinearLayout jiemian;
     private static int count=1;
     private static final int MESSAGE_QR_SUCCESS = 1;
@@ -131,63 +122,72 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
     private String zhuji=null;
-    private Camera mCamera;
-    private SurfaceHolder sh;
-    private android.view.ViewGroup.LayoutParams lp;
-    private Bitmap bmp2=null;
+    private final int REQUEST_TAKE_PHOTO=33;
 
 
-    Handler mHandler2 = new Handler() {
-        @Override
+
+
+    private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_QR_SUCCESS:
+             if (msg.what == 300) {
 
-                    Bitmap bitmap= (Bitmap) msg.obj;
-                    imageView.setImageBitmap(bitmap);
+                 Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"开启读卡失败",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                 tastyToast.setGravity(Gravity.CENTER,0,0);
+                 tastyToast.show();
 
-                    break;
-                case 22:
-
-                    tishi.setVisibility(View.VISIBLE);
-                    tishi.setText("比对失败,开始第"+count+"次比对,请再次看下摄像头");
-
-                    break;
-                case 66:
-
-                    break;
             }
 
         }
     };
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.zhujiemian_danping);
+        setContentView(R.layout.zhujiemian4);
         baoCunBeanDao=MyAppLaction.myAppLaction.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
 
         if (baoCunBean!=null && baoCunBean.getZhuji()!=null){
             zhuji=baoCunBean.getZhuji();
         }else {
-            Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+            Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
             tastyToast.setGravity(Gravity.CENTER,0,0);
             tastyToast.show();
         }
 
-        mFaceDet= MyAppLaction.mFaceDet;
 
-      //  isTrue3=true;
+        isTrue3=true;
         isTrue4=true;
 
         String fn = "bbbb.jpg";
         FileUtil.isExists(FileUtil.PATH, fn);
         mSavePhotoFile=new File( FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn);
 
+        beepManager = new BeepManager(this, R.raw.beep);
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+
+                   IdCard.open(InFoActivity3.this);
+
+                    startReadCard();
+
+                } catch (Exception e) {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"无法连接读卡器",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            tastyToast.setGravity(Gravity.CENTER,0,0);
+                            tastyToast.show();
+                        }
+                    });
+                }
+            }
+        }).start();
 
 
 
@@ -210,226 +210,59 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         });
 
         initView();
-        mIDCardRecognition = new IDCardRecognition(DanPingInFoActivity2.this, mIDCardRecListener);
-        mIDCardRecognition.start();
 
 
-        jiaZaiDialog=new JiaZaiDialog(DanPingInFoActivity2.this);
+
+        jiaZaiDialog=new JiaZaiDialog(InFoActivity3.this);
         jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         jiaZaiDialog.show();
 
-        lp = surfaceView.getLayoutParams();
-        sh = surfaceView.getHolder();
-        sh.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        sh.addCallback(this);
-
-        OpenCameraAndSetSurfaceviewSize(0);
-
-
     }
 
 
-    private Void OpenCameraAndSetSurfaceviewSize(int cameraId) {
-        mCamera = Camera.open(cameraId);
-        Camera.Parameters parameters = mCamera.getParameters();
-        Camera.Size pre_size = parameters.getPreviewSize();
-        //  Camera.Size pic_size = parameters.getPictureSize();
-        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
+    private void startReadCard() {
 
-        lp.height =pre_size.height*2;
-        lp.width = pre_size.width*2;
+        isTrue=true;
+        isTrue2=true;
 
-        mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+        thread = new Thread(new Runnable() {
             @Override
-            public void onPreviewFrame(byte[] data, Camera camera) {
+            public void run() {
 
-                Camera.Size size = camera.getParameters().getPreviewSize();
-                try{
-                    YuvImage image = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    image.compressToJpeg(new android.graphics.Rect(0, 0, size.width, size.height), 80, stream);
+                while (isTrue) {
+                    if (isTrue2){
+                        isTrue2=false;
+                        try {
 
-                    bmp2 = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size());
+                             async= new GetIDInfoTask();
+                             async.execute();
 
-                    if (isTrue4) {
-                        isTrue4=false;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                List<VisionDetRet> results = mFaceDet.detect(bmp2);
+                       } catch (Exception e) {
+                            isTrue=false;
+                            Log.d("SerialReadActivity", e.getMessage());
+                            mHandler.obtainMessage(300, e.getMessage()).sendToTarget();
 
-                                if (results!=null) {
-
-                                    int s = results.size();
-                                    VisionDetRet face;
-                                    if (s > 0) {
-                                        if (s > count - 1) {
-
-                                            face = results.get(count - 1);
-
-                                        } else {
-
-                                            face = results.get(0);
-
-                                        }
-
-                                        int xx = 0;
-                                        int yy = 0;
-                                        int xx2 = 0;
-                                        int yy2 = 0;
-                                        int ww = bmp2.getWidth();
-                                        int hh = bmp2.getHeight();
-                                        if (face.getRight() - 340 >= 0) {
-                                            xx = face.getRight() - 340;
-                                        } else {
-                                            xx = 0;
-                                        }
-                                        if (face.getTop() - 3400 >= 0) {
-                                            yy = face.getTop() - 340;
-                                        } else {
-                                            yy = 0;
-                                        }
-                                        if (xx + 760 <= ww) {
-                                            xx2 = 760;
-                                        } else {
-                                            xx2 = ww - xx;
-                                        }
-                                        if (yy + 660 <= hh) {
-                                            yy2 = 660;
-                                        } else {
-                                            yy2 = hh - yy;
-                                        }
-
-                                        final Bitmap bitmap = Bitmap.createBitmap(bmp2, xx, yy, xx2, yy2);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                imageView.setImageBitmap(bitmap);
-                                            }
-                                        });
-
-                                        String fn = "bbbb.jpg";
-                                        FileUtil.isExists(FileUtil.PATH, fn);
-                                        saveBitmap2File2(bitmap.copy(Bitmap.Config.ARGB_8888,false), FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn, 100);
-
-                                    } else {
-                                        isTrue4 = true;
-                                    }
-
-                                }else {
-                                    isTrue4 = true;
-                                }
-
-                            }
-                        }).start();
+                        }
 
                     }
-                    stream.close();
 
-                }catch(Exception ex){
-                    Log.e("Sys","Error:"+ex.getMessage());
+
                 }
             }
+
         });
+        thread.start();
 
-        return null;
-    }
-
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-        SetAndStartPreview(holder);
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
 
     }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-        Log.d("InFoActivity3", "surfaceView销毁");
-
-        if (mCamera != null) {
-            mCamera.setPreviewCallback(null) ;
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
-        }
-
-    }
-
-    private Void SetAndStartPreview(SurfaceHolder holder) {
-        try {
-            if (mCamera!=null){
-                mCamera.setPreviewDisplay(holder);
-                mCamera.setDisplayOrientation(0);
-            }
-
-
-        } catch (IOException e) {
-            Log.d("InFoActivity2", e.getMessage()+"相机");
-
-        }
-        return null;
-    }
-
-
-
-    private IDCardRecognition.IDCardRecListener mIDCardRecListener = new IDCardRecognition.IDCardRecListener() {
-        @Override
-        public void onResp(IDCardMsg info) {
-            if (info==null){
-                return;
-            }
-
-            name.setText(info.getName());
-            xingbie.setText(info.getSexStr());
-            shenfengzheng.setText(info.getIdCardNum());
-            mingzu.setText(info.getNationStr());
-          //  String time = info.get().substring(0, 4) + "-" + info.getBorn().substring(4, 6) + "-" + info.getBorn().substring(6, 8);
-            chusheng.setText(info.getBirthDate().toString());
-            fazhengjiguan.setText(info.getSignOffice());
-
-            //String time2 = info.getPeriod().substring(0, 4) + "-" + info.getPeriod().substring(4, 6) + "-" + info.getPeriod().substring(6, 8);
-            //String time3 = info.getPeriod().substring(9, 13) + "-" + info.getPeriod().substring(13, 15) + "-" + info.getPeriod().substring(15, 17);
-            youxiaoqixian.setText(info.getUsefulStartDate().toString() + " 到 " + info.getUsefulEndDate().toString());
-            zhuzhi.setText(info.getAddress());
-
-
-            zhengjianBitmap= BitmapFactory.decodeByteArray(info.getPortrait(), 0, info.getPortrait().length);
-            zhengjianzhao.setImageBitmap(zhengjianBitmap);
-            String fn="aaaa.jpg";
-            FileUtil.isExists(FileUtil.PATH,fn);
-
-            saveBitmap2File(zhengjianBitmap.copy(Bitmap.Config.ARGB_8888,false), FileUtil.SDPATH+ File.separator+FileUtil.PATH+File.separator+fn,100);
-
-            userInfoBena = new UserInfoBena(info.getName(), info.getSex()+"", info.getNationStr(), info.getBirthDate().toString(), info.getAddress(), info.getIdCardNum(), info.getSignOffice(), info.getUsefulStartDate().toString(), info.getUsefulEndDate().toString(), null, null, null);
-
-            if (jiaZaiDialog!=null && jiaZaiDialog.isShowing()){
-                jiaZaiDialog.setText("开启摄像头中,请稍后...");
-            }
-            mIDCardRecognition.close();
-
-        }
-    };
-
-
-
 
 
 
     private void initView() {
 
-        surfaceView= (SurfaceView) findViewById(R.id.fff);
 
-        imageView= (ImageView) findViewById(R.id.ffff);
         jiemian= (LinearLayout) findViewById(R.id.jiemian);
-        tishi= (TextView) findViewById(R.id.tishi);
+
 
         name= (TextView) findViewById(R.id.name);
         shenfengzheng= (EditText) findViewById(R.id.shenfenzheng);
@@ -446,7 +279,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(DanPingInFoActivity2.this, DatePickActivity.class);
+                Intent intent = new Intent(InFoActivity3.this, DatePickActivity.class);
                 startActivityForResult(intent,2);
 
             }
@@ -461,13 +294,13 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
             public void onClick(View v) {
 
 
-                if (!fanghao.getText().toString().trim().equals("") && baoCunBean!=null){
+                if ( baoCunBean!=null){
                     try {
                         if (bidui){
                             isBaoCun=true;
                             link_save();
                         }else {
-                            final QueRenDialog dialog=new QueRenDialog(DanPingInFoActivity2.this,"比对不通过,你确定要保存");
+                            final QueRenDialog dialog=new QueRenDialog(InFoActivity3.this,"比对不通过,你确定要保存");
                             dialog.setOnPositiveListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -492,14 +325,14 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
 
 
                     }catch (Exception e){
-                        Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"数据异常,请返回后重试",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                        Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"数据异常,请返回后重试",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER,0,0);
                         tastyToast.show();
                         Log.d("InFoActivity", e.getMessage());
                     }
 
                 }else {
-                    Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"请先读取信息,填写房号!",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                    Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"请先读取信息,填写房号!",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                     tastyToast.setGravity(Gravity.CENTER,0,0);
                     tastyToast.show();
                 }
@@ -510,19 +343,10 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         //progressBarWithNumber= (HorizontalProgressBarWithNumber) findViewById(R.id.id_progressbar01);
 
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-            if (resultCode == Activity.RESULT_OK && requestCode == 2) {
-                // 选择预约时间的页面被关闭
-                String date = data.getStringExtra("date");
-                chepai.setText(date);
-            }
 
     }
+
+
 
     private class SensorInfoReceiver extends BroadcastReceiver {
 
@@ -549,7 +373,6 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
 
                 Bitmap bitmap= BitmapFactory.decodeFile(FileUtil.SDPATH+ File.separator+FileUtil.PATH+File.separator+"bbbb.jpg");
                 xianchengzhao.setImageBitmap(bitmap);
-                kill_camera();
             }
             if (action.equals("guanbi2")){
                 finish();
@@ -557,21 +380,96 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         }
     }
 
-    private void kill_camera() {
-        //  Log.d("InFoActivity3", "销毁");
-        try {
-            isTrue4=false;
-            //isTrue3=false;
-            surfaceView.setVisibility(View.GONE);
-            if (mCamera!=null){
-                mCamera.stopPreview();
-                mCamera.release();
-            }
 
-        }catch (Exception e){
-            Log.d("InFoActivity2", e.getMessage()+"销毁");
+    private class GetIDInfoTask extends
+            AsyncTask<Void, Integer, TelpoException> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //开始
+            info = null;
+            zhengjianBitmap = null;
+
         }
 
+        @Override
+        protected TelpoException doInBackground(Void... arg0) {
+            TelpoException result = null;
+            try {
+                publishProgress(1);
+//				info = IdCard.checkIdCard(4000);
+                info = IdCard.checkIdCard(1600);//luyq modify
+                if (info != null) {
+                    images = IdCard.getIdCardImage();
+                    zhengjianBitmap = IdCard.decodeIdCardImage(images);
+                    // luyq add 增加指纹信息
+                    //fringerprint = IdCard.getFringerPrint();
+                    //fringerprintData = Utils.getFingerInfo(fringerprint, InFoActivity2.this);
+                }
+            } catch (TelpoException e) {
+                Log.d("GetIDInfoTask", "异常" + e.getMessage());
+                result = e;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        @Override
+        protected void onPostExecute(TelpoException result) {
+            super.onPostExecute(result);
+
+            if (result == null && !info.getName().equals("timeout")) {
+                isTrue2 = false;
+                isTrue = false;
+
+                if (async != null) {
+                    async.cancel(true);
+                    async = null;
+                }
+
+                //设置信息
+                beepManager.playBeepSoundAndVibrate();
+                name.setText(info.getName().trim());
+                xingbie.setText(info.getSex());
+                shenfengzheng.setText(info.getNo());
+                mingzu.setText(info.getNation());
+                String time = info.getBorn().substring(0, 4) + "-" + info.getBorn().substring(4, 6) + "-" + info.getBorn().substring(6, 8);
+                chusheng.setText(time);
+                fazhengjiguan.setText(info.getApartment());
+
+                String time2 = info.getPeriod().substring(0, 4) + "-" + info.getPeriod().substring(4, 6) + "-" + info.getPeriod().substring(6, 8);
+                String time3 = info.getPeriod().substring(9, 13) + "-" + info.getPeriod().substring(13, 15) + "-" + info.getPeriod().substring(15, 17);
+                youxiaoqixian.setText(time2 + " " + time3);
+                zhuzhi.setText(info.getAddress());
+
+                if (jiaZaiDialog!=null && jiaZaiDialog.isShowing()){
+                    jiaZaiDialog.setText("开启摄像头中,请稍后...");
+                }
+
+                zhengjianzhao.setImageBitmap(zhengjianBitmap);
+                String fn="aaaa.jpg";
+                FileUtil.isExists(FileUtil.PATH,fn);
+
+                saveBitmap2File(zhengjianBitmap.copy(Bitmap.Config.ARGB_8888,false), FileUtil.SDPATH+ File.separator+FileUtil.PATH+File.separator+fn,100);
+
+                userInfoBena = new UserInfoBena(info.getName(), info.getSex().equals("男") ? 1 + "" : 2 + "", info.getNation(), time, info.getAddress(), info.getNo(), info.getApartment(), time2, time3, null, null, null);
+
+
+            } else {
+                isTrue2 = true;
+//                Toast tastyToast = TastyToast.makeText(InFoActivity2.this, "读取身份证信息失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+//                tastyToast.setGravity(Gravity.CENTER, 0, 0);
+//                tastyToast.show();
+
+            }
+        }
 
     }
 
@@ -601,22 +499,11 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
             shengfenzhengPath=path;
             isReadCard=true;
 
-            mCamera.startPreview();
-
-            if (jiaZaiDialog!=null && jiaZaiDialog.isShowing()){
-                jiaZaiDialog.dismiss();
-                jiaZaiDialog=null;
-            }
-            ObjectAnimator animator2 = ObjectAnimator.ofFloat(jiemian, "scaleY", 1f, 0f);
-            animator2.setDuration(600);//时间1s
-            animator2.start();
-            //起始为1，结束时为0
-            ObjectAnimator animator = ObjectAnimator.ofFloat(jiemian, "scaleX", 1f, 0f);
-            animator.setDuration(600);//时间1s
-            animator.start();
-          //  startThread();
             //开启摄像头
-          //  kaishiPaiZhao();
+            startCamera();
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -627,6 +514,24 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                 bm.recycle();
             }
             bm = null;
+        }
+    }
+
+    /**
+     * 启动拍照
+     * @param
+     */
+    private void startCamera() {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Continue only if the File was successfully created
+            if (mSavePhotoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(mSavePhotoFile));//设置文件保存的URI
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
 
@@ -652,18 +557,6 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
             bos.close();
 
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tishi.setVisibility(View.VISIBLE);
-                    tishi.setText("上传图片中。。。");
-                    link_P1(shengfenzhengPath,filePath2);
-                }
-            });
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -682,8 +575,10 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         super.onPause();
 
 
+
+
         isTrue4=false;
-        //isTrue3=false;
+        isTrue3=false;
         count=1;
 
         isTrue2=false;
@@ -703,6 +598,18 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
     protected void onDestroy() {
 
 
+        if (beepManager != null){
+            beepManager.close();
+            beepManager = null;
+        }
+        IdCard.close();
+
+        if (async!=null){
+            async.cancel(true);
+            async=null;
+        }
+
+
         if (jiaZaiDialog!=null && jiaZaiDialog.isShowing()){
             jiaZaiDialog.dismiss();
             jiaZaiDialog=null;
@@ -713,17 +620,60 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_TAKE_PHOTO:  //拍照
+                    //注意，如果拍照的时候设置了MediaStore.EXTRA_OUTPUT，data.getData=null
+                    xianchengzhao.setImageURI(Uri.fromFile(mSavePhotoFile));
 
+                    link_P1(shengfenzhengPath,filePath2);
+
+                    break;
+
+            }
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == 2) {
+            // 选择预约时间的页面被关闭
+            String date = data.getStringExtra("date");
+            chepai.setText(date);
+        }
+    }
+
+//    /**
+//     * 启动拍照
+//     * @param
+//     */
+//    private void startCamera() {
+//
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        // Ensure that there's a camera activity to handle the intent
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            // Continue only if the File was successfully created
+//            if (mSavePhotoFile != null) {
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                        Uri.fromFile(mSavePhotoFile));//设置文件保存的URI
+//                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+//            }
+//        }
+//    }
 
     private void link_save() {
         try {
 
+
+        //final MediaType JSON=MediaType.parse("application/json; charset=utf-8");
+        //http://192.168.2.4:8080/sign?cmd=getUnSignList&subjectId=jfgsdf
         OkHttpClient okHttpClient= new OkHttpClient.Builder()
                 .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
+
+
 //    /* form的分割线,自己定义 */
 //        String boundary = "xx--------------------------------------------------------------xx";
         RequestBody body = new FormBody.Builder()
@@ -751,9 +701,9 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                 .post(body)
                 .url(zhuji+ "/saveCompareResult.do");
 
-        if (tiJIaoDialog==null && !DanPingInFoActivity2.this.isFinishing()  ){
-            tiJIaoDialog=new TiJIaoDialog(DanPingInFoActivity2.this);
-            if (!DanPingInFoActivity2.this.isFinishing())
+        if (tiJIaoDialog==null && !InFoActivity3.this.isFinishing()  ){
+            tiJIaoDialog=new TiJIaoDialog(InFoActivity3.this);
+            if (!InFoActivity3.this.isFinishing())
             tiJIaoDialog.show();
         }
 
@@ -792,7 +742,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                             @Override
                             public void run() {
 
-                                Toast tastyToast = TastyToast.makeText(DanPingInFoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                                Toast tastyToast = TastyToast.makeText(InFoActivity3.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
                                 tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
                                 finish();
@@ -805,7 +755,17 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                             @Override
                             public void run() {
 
-                                Toast tastyToast = TastyToast.makeText(DanPingInFoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
+//                                final QueRenDialog dialog = new QueRenDialog(InFoActivity2.this, "请注意,这个是黑名单!");
+//                                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                                dialog.setOnPositiveListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        dialog.dismiss();
+//                                        finish();
+//                                    }
+//                                });
+//                                dialog.show();
+                                Toast tastyToast = TastyToast.makeText(InFoActivity3.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
                                 tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
                                 finish();
@@ -819,7 +779,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                             @Override
                             public void run() {
 
-                                Toast tastyToast = TastyToast.makeText(DanPingInFoActivity2.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                Toast tastyToast = TastyToast.makeText(InFoActivity3.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                                 tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                 tastyToast.show();
                                 finish();
@@ -847,13 +807,217 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
     }
 
 
+//
+//    private void startThread() {
+//
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (jiaZaiDialog != null && jiaZaiDialog.isShowing()) {
+//                    jiaZaiDialog.dismiss();
+//                }
+//
+//                ObjectAnimator animator2 = ObjectAnimator.ofFloat(jiemian, "scaleY", 1f, 0f);
+//                animator2.setDuration(600);//时间1s
+//                animator2.start();
+//                //起始为1，结束时为0
+//                ObjectAnimator animator = ObjectAnimator.ofFloat(jiemian, "scaleX", 1f, 0f);
+//                animator.setDuration(600);//时间1s
+//                animator.addListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        jiemian.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                animator.start();
+//            }
+//        });
+//        }
+//        Thread thread=  new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                while (isTrue3){
+//
+//                    if (isTrue4){
+//                        isTrue4=false;
+//                        try {
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//
+//                                    bitmapBig=videoView.getBitmap();
+//
+//                                    if (bitmapBig!=null){
+//
+//                                       new Thread(new Runnable() {
+//                                           @Override
+//                                           public void run() {
+//
+//                                               Bitmap bmpf = bitmapBig.copy(Bitmap.Config.RGB_565, true);
+//
+//                                               //返回识别的人脸数
+//                                               //	int faceCount = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), 1).findFaces(bmpf, facess);
+//                                               //	FaceDetector faceCount2 = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), 2);
+//
+//                                               myFace = new FaceDetector.Face[numberOfFace];       //分配人脸数组空间
+//                                               myFaceDetect = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), numberOfFace);
+//                                               numberOfFaceDetected = myFaceDetect.findFaces(bmpf, myFace);    //FaceDetector 构造实例并解析人脸
+//
+//                                               if (numberOfFaceDetected > 0) {
+//
+//                                                   FaceDetector.Face face;
+//                                                   if (numberOfFaceDetected>count-1){
+//                                                       face = myFace[count-1];
+//
+//                                                   }else {
+//                                                       face = myFace[0];
+//
+//                                                   }
+//
+//                                                   PointF pointF = new PointF();
+//                                                   face.getMidPoint(pointF);
+//
+//
+//                                                 //  myEyesDistance = (int)face.eyesDistance();
+//
+//                                                   int xx=0;
+//                                                   int yy=0;
+//                                                   int xx2=0;
+//                                                   int yy2=0;
+//
+//                                                   if ((int)pointF.x-200>=0){
+//                                                       xx=(int)pointF.x-200;
+//                                                   }else {
+//                                                       xx=0;
+//                                                   }
+//                                                   if ((int)pointF.y-320>=0){
+//                                                       yy=(int)pointF.y-320;
+//                                                   }else {
+//                                                       yy=0;
+//                                                   }
+//                                                   if (xx+350 >=bitmapBig.getWidth()){
+//                                                       xx2=bitmapBig.getWidth()-xx;
+//
+//                                                   }else {
+//                                                       xx2=350;
+//                                                   }
+//                                                   if (yy+500>=bitmapBig.getHeight()){
+//                                                       yy2=bitmapBig.getHeight()-yy;
+//
+//                                                   }else {
+//                                                       yy2=500;
+//                                                   }
+//
+//
+//                                                   Bitmap bitmap = Bitmap.createBitmap(bitmapBig,xx,yy,xx2,yy2);
+//
+//                                                 //  Bitmap bitmap = Bitmap.createBitmap(bitmapBig,0,0,bitmapBig.getWidth(),bitmapBig.getHeight());
+//
+//                                                   Message message=Message.obtain();
+//                                                   message.what=MESSAGE_QR_SUCCESS;
+//                                                   message.obj=bitmap;
+//                                                   mHandler2.sendMessage(message);
+//
+//
+//                                                   String fn="bbbb.jpg";
+//                                                   FileUtil.isExists(FileUtil.PATH,fn);
+//                                                   saveBitmap2File2(bitmap, FileUtil.SDPATH+ File.separator+FileUtil.PATH+File.separator+fn,100);
+//
+//
+//                                               }else {
+//                                                   isTrue4=true;
+//                                               }
+//
+//                                               bmpf.recycle();
+//                                               bmpf = null;
+//                                           }
+//                                       }).start();
+//
+//
+//                                    }
+//                                }
+//                            });
+//
+//                        }catch (IllegalStateException e){
+//                            Log.d("InFoActivity2", e.getMessage()+"");
+//                        }
+//
+//
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//        });
+//
+//        thread.start();
+//
+//    }
+
+//    public  void saveBitmap2File2(Bitmap bm, final String path, int quality) {
+//        try {
+//            filePath2=path;
+//            if (null == bm) {
+//                Log.d("InFoActivity", "回收|空");
+//                return ;
+//            }
+//
+//            File file = new File(path);
+//            if (file.exists()) {
+//                file.delete();
+//            }
+//            BufferedOutputStream bos = new BufferedOutputStream(
+//                    new FileOutputStream(file));
+//            bm.compress(Bitmap.CompressFormat.JPEG, quality, bos);
+//            bos.flush();
+//            bos.close();
+//
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            });
+//
+//            link_P1(shengfenzhengPath,filePath2);
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//
+//        } finally {
+//
+////			if (!bm.isRecycled()) {
+////				bm.recycle();
+////			}
+//            bm = null;
+//        }
+//    }
 
 
     private void link_P1(String filename1, final String fileName2) {
-        jiaZaiDialog=new JiaZaiDialog(DanPingInFoActivity2.this);
+        jiaZaiDialog=new JiaZaiDialog(InFoActivity3.this);
         jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         jiaZaiDialog.setText("上传图片中...");
-        if (!DanPingInFoActivity2.this.isFinishing()){
+        if (!InFoActivity3.this.isFinishing()){
             jiaZaiDialog.show();
         }
 
@@ -907,7 +1071,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                             jiaZaiDialog.dismiss();
                             jiaZaiDialog=null;
                         }
-                        Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                        Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER,0,0);
                         tastyToast.show();
 
@@ -934,7 +1098,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                     ResponseBody body = response.body();
                     String ss=body.string();
 
-                    Log.d("AllConnects", "aa   "+ss);
+                  //  Log.d("AllConnects", "aa   "+ss);
 
                     JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
                     Gson gson=new Gson();
@@ -951,7 +1115,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                                 jiaZaiDialog.dismiss();
                                 jiaZaiDialog=null;
                             }
-                            Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                             tastyToast.setGravity(Gravity.CENTER,0,0);
                             tastyToast.show();
                         }
@@ -967,10 +1131,10 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                jiaZaiDialog=new JiaZaiDialog(DanPingInFoActivity2.this);
+                jiaZaiDialog=new JiaZaiDialog(InFoActivity3.this);
                 jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 jiaZaiDialog.setText("上传图片中...");
-                if (!DanPingInFoActivity2.this.isFinishing())
+                if (!InFoActivity3.this.isFinishing())
                 jiaZaiDialog.show();
             }
         });
@@ -1027,7 +1191,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                             jiaZaiDialog.dismiss();
                             jiaZaiDialog=null;
                         }
-                        Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                        Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER,0,0);
                         tastyToast.show();
                     }
@@ -1069,7 +1233,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                                 jiaZaiDialog.dismiss();
                                 jiaZaiDialog=null;
                             }
-                            Toast tastyToast= TastyToast.makeText(DanPingInFoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            Toast tastyToast= TastyToast.makeText(InFoActivity3.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                             tastyToast.setGravity(Gravity.CENTER,0,0);
                             tastyToast.show();
                         }
@@ -1090,6 +1254,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                 .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
+
 
 //    /* form的分割线,自己定义 */
 //        String boundary = "xx--------------------------------------------------------------xx";
@@ -1124,12 +1289,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tishi.setText("上传图片出错，请返回后重试！");
-                    }
-                });
+
                 Log.d("AllConnects", "请求识别失败"+e.getMessage());
             }
 
@@ -1154,55 +1314,21 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
                         sendBroadcast(new Intent("guanbi").putExtra("biduijieguo",true)
                                 .putExtra("xiangsidu",(zhaoPianBean.getScore()+"").substring(0,5))
                                 .putExtra("cardPath",userInfoBena.getCardPhoto()).putExtra("saomiaoPath",userInfoBena.getScanPhoto()));
-                        count=1;
-
-                        qiehuan();
 
                     }else {
-
-
-                        if (count<=3){
-
-                            Message message=Message.obtain();
-                            message.what=22;
-                            mHandler2.sendMessage(message);
-
-                            isTrue4 = true;
-
-
-                        }else {
 
                             sendBroadcast(new Intent("guanbi").putExtra("biduijieguo",false)
                                     .putExtra("xiangsidu",(zhaoPianBean.getScore()+"").substring(0,5))
                                     .putExtra("cardPath",userInfoBena.getCardPhoto()).putExtra("saomiaoPath",userInfoBena.getScanPhoto()));
-                            count=1;
-
-                            qiehuan();
-                        }
 
                     }
 
 
                 }catch (Exception e){
 
-                    if (count<=3){
-
-                        Message message=Message.obtain();
-                        message.what=22;
-                        mHandler2.sendMessage(message);
-
-                        isTrue4 = true;
-
-
-                    }else {
-
                         sendBroadcast(new Intent("guanbi").putExtra("biduijieguo",false).putExtra("xiangsidu","43.21")
                                 .putExtra("cardPath",userInfoBena.getCardPhoto()).putExtra("saomiaoPath",userInfoBena.getScanPhoto()));
-                        count=1;
 
-                        qiehuan();
-
-                    }
 
                     Log.d("WebsocketPushMsg", e.getMessage());
                 }
@@ -1212,30 +1338,7 @@ public class DanPingInFoActivity2 extends Activity implements SurfaceHolder.Call
 
     }
 
-    private void qiehuan(){
 
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                surfaceView.setVisibility(View.GONE);
-                jiemian.setVisibility(View.VISIBLE);
-                isTrue4=false;
-                //isTrue3=false;
-
-                ObjectAnimator animator2 = ObjectAnimator.ofFloat(jiemian, "scaleY", 0f, 1f);
-                animator2.setDuration(600);//时间1s
-                animator2.start();
-                //起始为1，结束时为0
-                ObjectAnimator animator = ObjectAnimator.ofFloat(jiemian, "scaleX", 0f, 1f);
-                animator.setDuration(600);//时间1s
-                animator.start();
-            }
-        });
-
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

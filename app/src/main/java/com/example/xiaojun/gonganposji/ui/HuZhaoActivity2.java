@@ -1,13 +1,8 @@
 package com.example.xiaojun.gonganposji.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.SurfaceTexture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,7 +10,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +27,6 @@ import com.example.xiaojun.gonganposji.beans.HuZhaoFanHuiBean;
 import com.example.xiaojun.gonganposji.beans.Photos;
 import com.example.xiaojun.gonganposji.beans.UserInfoBena;
 import com.example.xiaojun.gonganposji.dialog.JiaZaiDialog;
-import com.example.xiaojun.gonganposji.dialog.QueRenDialog;
 import com.example.xiaojun.gonganposji.dialog.TiJIaoDialog;
 import com.example.xiaojun.gonganposji.utils.FileUtil;
 import com.example.xiaojun.gonganposji.utils.GsonUtil;
@@ -42,7 +35,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.tzutalin.dlib.FaceDet;
-import com.tzutalin.dlib.VisionDetRet;
 
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
@@ -53,8 +45,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -66,7 +58,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class HuZhaoActivity extends Activity implements View.OnClickListener {
+public class HuZhaoActivity2 extends Activity implements View.OnClickListener {
     private ImageView huzhaoim,xianchangim;
     private EditText name,fanghao,dianhua;
     private TextView tuifang;
@@ -85,7 +77,9 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
     private String benrenPath=null;
    // private boolean isA=false;
     private File mSavePhotoFile;
+    private File mSavePhotoFile2;
     private final int REQUEST_TAKE_PHOTO=33;
+    private final int REQUEST_TAKE_PHOTO2=44;
     public static final int TIMEOUT = 1000 * 60;
     private JiaZaiDialog jiaZaiDialog=null;
     private UserInfoBena userInfoBena=null;
@@ -104,7 +98,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
         if (baoCunBean!=null && baoCunBean.getZhuji()!=null){
             zhuji=baoCunBean.getZhuji();
         }else {
-            Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+            Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"请先设置主机地址",TastyToast.LENGTH_LONG,TastyToast.ERROR);
             tastyToast.setGravity(Gravity.CENTER,0,0);
             tastyToast.show();
         }
@@ -116,97 +110,11 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
         FileUtil.isExists(FileUtil.PATH, fn);
         mSavePhotoFile=new File( FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn);
 
+        String fn2 = "aaaa.jpg";
+        FileUtil.isExists(FileUtil.PATH, fn2);
+        mSavePhotoFile2=new File( FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn2);
+
         ititView();
-        try {
-
-            if (baoCunBean!=null){
-
-                callback=new IVLCVout.Callback() {
-                    @Override
-                    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-
-                    }
-
-                    @Override
-                    public void onSurfacesCreated(IVLCVout vlcVout) {
-
-                        if (mediaPlayer != null && baoCunBean.getCameraIP() !=null) {
-
-                            //"rtsp://192.168.2.56:554/user=admin_password=tljwpbo6_channel=1_stream=0.sdp?real_stream"
-                            ///user=admin&password=&channel=1&stream=0.sdp
-                            final Uri uri=Uri.parse("rtsp://"+baoCunBean.getCameraIP()+":554/user=admin_password=_channel=1_stream=0.sdp");
-                            media = new Media(libvlc, uri);
-                            mediaPlayer.setMedia(media);
-                            videoView.setKeepScreenOn(true);
-                            mediaPlayer.play();
-
-
-                        }else {
-                            Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"请先设置摄像头IP",TastyToast.LENGTH_LONG,TastyToast.ERROR);
-                            tastyToast.setGravity(Gravity.CENTER,0,0);
-                            tastyToast.show();
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onSurfacesDestroyed(IVLCVout vlcVout) {
-
-                    }
-
-                    @Override
-                    public void onHardwareAccelerationError(IVLCVout vlcVout) {
-
-//                                if (mediaPlayer != null && baoCunBean.getCameraIP() !=null) {
-//                                    final Uri uri=Uri.parse("rtsp://"+baoCunBean.getCameraIP()+"/user=admin&password=&channel=1&stream=0.sdp");
-//                                    media = new Media(libvlc, uri);
-//                                    mediaPlayer.setMedia(media);
-//                                    videoView.setKeepScreenOn(true);
-//                                    mediaPlayer.play();
-//
-//                                }else {
-//                                    Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"请先设置摄像头IP",TastyToast.LENGTH_LONG,TastyToast.ERROR);
-//                                    tastyToast.setGravity(Gravity.CENTER,0,0);
-//                                    tastyToast.show();
-//                                }
-
-                    }
-                };
-                videoView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
-                    @Override
-                    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                      //  Log.d("HuZhaoActivity", "fffffffffffffff");
-                        vlcVout.setVideoView(videoView);
-                        vlcVout.addCallback(callback);
-                        vlcVout.attachViews();
-
-                    }
-
-                    @Override
-                    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-                        Log.d("HuZhaoActivity", "改变");
-                    }
-
-                    @Override
-                    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-                        Log.d("HuZhaoActivity", "onSurfaceTextureDestroyed销毁");
-
-                        return true;
-                    }
-
-                    @Override
-                    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-                        Log.d("HuZhaoActivity", "ddddd"+surface.getTimestamp());
-
-                    }
-                });
-
-
-            }
-        }catch (Exception e){
-            Log.d("HuZhaoActivity", e.getMessage()+"");
-        }
 
     }
 
@@ -216,7 +124,6 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
         ggg= (LinearLayout) findViewById(R.id.ggg);
         huzhaoim= (ImageView) findViewById(R.id.zhengjianim);
         huzhaoim.setOnClickListener(this);
-        huzhaoim.setClickable(false);
         xianchangim= (ImageView) findViewById(R.id.xianchangim);
         xianchangim.setOnClickListener(this);
         name= (EditText) findViewById(R.id.name);
@@ -226,7 +133,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
         tuifang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HuZhaoActivity.this, DatePickActivity.class);
+                Intent intent = new Intent(HuZhaoActivity2.this, DatePickActivity.class);
                 startActivityForResult(intent,2);
             }
         });
@@ -234,7 +141,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
         baocun.setOnClickListener(this);
         paizhao= (Button) findViewById(R.id.paizhao);
         paizhao.setOnClickListener(this);
-        libvlc = LibVLCUtil.getLibVLC(HuZhaoActivity.this);
+        libvlc = LibVLCUtil.getLibVLC(HuZhaoActivity2.this);
         mediaPlayer = new MediaPlayer(libvlc);
         vlcVout = mediaPlayer.getVLCVout();
     }
@@ -243,196 +150,30 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.zhengjianim: //第一张
-
-                startCamera();
+                Log.d("HuZhaoActivity2", "dddd");
+                startCamera(8);
 
                 break;
             case R.id.xianchangim: //第二张
 
-                if (vlcVout != null) {
+                startCamera(9);
 
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(
-                            ObjectAnimator.ofFloat(ggg, "scaleY", 1f, 0f),
-                            ObjectAnimator.ofFloat(ggg, "scaleX", 1f, 0f)
-                            //	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-                    );
-                    animatorSet.setDuration(600);
-                    animatorSet.setInterpolator(new AccelerateInterpolator());
-                    animatorSet.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            ggg.setVisibility(View.GONE);
-
-                        }
-                    });
-                    animatorSet.start();
-                }
                 break;
             case R.id.baocun:
                 if (!fanghao.getText().toString().equals("") && !userInfoBena.getScanPhoto().equals("") && !userInfoBena.getCardPhoto().equals("")){
                     link_save();
                 }else {
 
-                    Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"你没有填写房号或拍照",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                    Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"你没有填写房号或拍照",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                     tastyToast.setGravity(Gravity.CENTER,0,0);
                     tastyToast.show();
                 }
 
                 break;
             case R.id.paizhao:
-                try {
-
-                        paizhao.setClickable(false);
-                        bitmap2 = videoView.getBitmap();
-                        if (bitmap2 != null) {
-
-                            List<VisionDetRet> results = mFaceDet.detect(bitmap2);
-
-                            if (results != null) {
-                                int s = results.size();
-                                VisionDetRet face;
-                                if (s > 0) {
-                                    face = results.get(0);
-                                    paizhao.setClickable(true);
-                                    ggg.setVisibility(View.VISIBLE);
-                                    int xx = 0;
-                                    int yy = 0;
-                                    int xx2 = 0;
-                                    int yy2 = 0;
-                                    int ww = bitmap2.getWidth();
-                                    int hh = bitmap2.getHeight();
-                                    if (face.getRight() - 300 >= 0) {
-                                        xx = face.getRight() - 300;
-                                    } else {
-                                        xx = 0;
-                                    }
-                                    if (face.getTop() - 220 >= 0) {
-                                        yy = face.getTop() - 220;
-                                    } else {
-                                        yy = 0;
-                                    }
-                                    if (xx + 430 <= ww) {
-                                        xx2 = 430;
-                                    } else {
-                                        xx2 = ww - xx - 1;
-                                    }
-                                    if (yy + 430 <= hh) {
-                                        yy2 = 430;
-                                    } else {
-                                        yy2 = hh - yy - 1;
-                                    }
-
-//                                               Bitmap bmpf = bitmapBig.copy(Bitmap.Config.RGB_565, true);
-//
-//                                               //返回识别的人脸数
-//                                               //	int faceCount = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), 1).findFaces(bmpf, facess);
-//                                               //	FaceDetector faceCount2 = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), 2);
-//
-//                                               myFace = new FaceDetector.Face[numberOfFace];       //分配人脸数组空间
-//                                               myFaceDetect = new FaceDetector(bmpf.getWidth(), bmpf.getHeight(), numberOfFace);
-//                                               numberOfFaceDetected = myFaceDetect.findFaces(bmpf, myFace);    //FaceDetector 构造实例并解析人脸
-//
-//                                               if (numberOfFaceDetected > 0) {
-//
-//                                                   FaceDetector.Face face;
-//                                                   if (numberOfFaceDetected>count-1){
-//                                                       face = myFace[count-1];
-//
-//                                                   }else {
-//                                                       face = myFace[0];
-//
-//                                                   }
-//
-//                                                   PointF pointF = new PointF();
-//                                                   face.getMidPoint(pointF);
-//
-//
-//                                                 //  myEyesDistance = (int)face.eyesDistance();
-//
-//                                                   int xx=0;
-//                                                   int yy=0;
-//                                                   int xx2=0;
-//                                                   int yy2=0;
-//
-//                                                   if ((int)pointF.x-200>=0){
-//                                                       xx=(int)pointF.x-200;
-//                                                   }else {
-//                                                       xx=0;
-//                                                   }
-//                                                   if ((int)pointF.y-320>=0){
-//                                                       yy=(int)pointF.y-320;
-//                                                   }else {
-//                                                       yy=0;
-//                                                   }
-//                                                   if (xx+350 >=bitmapBig.getWidth()){
-//                                                       xx2=bitmapBig.getWidth()-xx;
-//
-//                                                   }else {
-//                                                       xx2=350;
-//                                                   }
-//                                                   if (yy+500>=bitmapBig.getHeight()){
-//                                                       yy2=bitmapBig.getHeight()-yy;
-//
-//                                                   }else {
-//                                                       yy2=500;
-//                                                   }
-
-                                    Bitmap bitmap = Bitmap.createBitmap(bitmap2, xx, yy, xx2, yy2);
-
-                                    String fn = "benren.jpg";
-                                    FileUtil.isExists(FileUtil.PATH, fn);
-                                    saveBitmap2File(bitmap, FileUtil.SDPATH + File.separator + FileUtil.PATH + File.separator + fn, 100);
-
-                                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(ggg, "scaleY", 0f, 1f);
-                                    animator2.setDuration(600);//时间1s
-                                    animator2.start();
-                                    //起始为1，结束时为0
-                                    ObjectAnimator animator = ObjectAnimator.ofFloat(ggg, "scaleX", 0f, 1f);
-                                    animator.setDuration(600);//时间1s
-                                    animator.addListener(new Animator.AnimatorListener() {
-                                        @Override
-                                        public void onAnimationStart(Animator animation) {
-
-                                        }
-
-                                        @Override
-                                        public void onAnimationEnd(Animator animation) {
-
-                                        }
-
-                                        @Override
-                                        public void onAnimationCancel(Animator animation) {
-
-                                        }
-
-                                        @Override
-                                        public void onAnimationRepeat(Animator animation) {
-
-                                        }
-                                    });
-                                    animator.start();
 
 
-                                } else {
-                                    final QueRenDialog dialog = new QueRenDialog(HuZhaoActivity.this, "没有检测到人脸,请重新拍摄!");
-                                    dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                                    dialog.setOnPositiveListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            paizhao.setClickable(true);
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    dialog.show();
-                                }
 
-                            }
-                        }
-
-                    }catch(Exception e){
-                        Log.d("HuZhaoActivity", e.getMessage() + "");
-                    }
 
                 break;
 
@@ -448,7 +189,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 case REQUEST_TAKE_PHOTO:  //拍照
                     //注意，如果拍照的时候设置了MediaStore.EXTRA_OUTPUT，data.getData=null
                  //   huzhaoim.setImageURI(Uri.fromFile());
-                    Glide.with(HuZhaoActivity.this)
+                    Glide.with(HuZhaoActivity2.this)
                             .load(mSavePhotoFile)
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -457,6 +198,18 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                     link_P1(mSavePhotoFile);
 
                     break;
+                    case REQUEST_TAKE_PHOTO2:  //拍照
+                        //注意，如果拍照的时候设置了MediaStore.EXTRA_OUTPUT，data.getData=null
+                        //   huzhaoim.setImageURI(Uri.fromFile());
+                        Glide.with(HuZhaoActivity2.this)
+                                .load(mSavePhotoFile2)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                //.transform(new GlideCircleTransform(RenGongFuWuActivity.this,1, Color.parseColor("#ffffffff")))
+                                .into(xianchangim);
+                        link_P2(mSavePhotoFile2);
+
+                        break;
             }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == 2) {
@@ -469,9 +222,10 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
     /**
      * 启动拍照
      * @param
+     * @param i
      */
-    private void startCamera() {
-
+    private void startCamera(int i) {
+        if (i==8){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -480,6 +234,19 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(mSavePhotoFile));//设置文件保存的URI
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+        }else {
+
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                // Continue only if the File was successfully created
+                if (mSavePhotoFile2 != null) {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            Uri.fromFile(mSavePhotoFile2));//设置文件保存的URI
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO2);
+                }
             }
         }
     }
@@ -508,18 +275,14 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
             bos.close();
             benrenPath=path;
 
-            Glide.with(HuZhaoActivity.this)
+            Glide.with(HuZhaoActivity2.this)
                     .load(benrenPath)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     //.transform(new GlideCircleTransform(RenGongFuWuActivity.this,1, Color.parseColor("#ffffffff")))
                     .into(xianchangim);
 
-         //    isA=true;
-
-            huzhaoim.setClickable(true);
-
-            link_P2();
+            link_P2(mSavePhotoFile2);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -566,10 +329,10 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
     }
 
     private void link_P1(File filename1 ) {
-        jiaZaiDialog=new JiaZaiDialog(HuZhaoActivity.this);
+        jiaZaiDialog=new JiaZaiDialog(HuZhaoActivity2.this);
         jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         jiaZaiDialog.setText("上传图片中...");
-        if (!HuZhaoActivity.this.isFinishing()){
+        if (!HuZhaoActivity2.this.isFinishing()){
             jiaZaiDialog.show();
         }
 
@@ -622,7 +385,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                             jiaZaiDialog.dismiss();
                             jiaZaiDialog=null;
                         }
-                        Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                        Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER,0,0);
                         tastyToast.show();
 
@@ -664,7 +427,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                                 jiaZaiDialog.dismiss();
                                 jiaZaiDialog=null;
                             }
-                            Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                             tastyToast.setGravity(Gravity.CENTER,0,0);
                             tastyToast.show();
                         }
@@ -676,14 +439,14 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private void link_P2() {
+    private void link_P2(File mSavePhotoFile2) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                jiaZaiDialog=new JiaZaiDialog(HuZhaoActivity.this);
+                jiaZaiDialog=new JiaZaiDialog(HuZhaoActivity2.this);
                 jiaZaiDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 jiaZaiDialog.setText("上传图片中...");
-                if (!HuZhaoActivity.this.isFinishing())
+                if (!HuZhaoActivity2.this.isFinishing())
                 jiaZaiDialog.show();
             }
         });
@@ -703,8 +466,8 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
 //        final String file1Name = System.currentTimeMillis()+"testFile1.jpg";
 
     /* 第二个要上传的文件,*/
-       File file2 = new File(benrenPath);
-        RequestBody fileBody2 = RequestBody.create(MediaType.parse("application/octet-stream") , file2);
+     //  File file2 = new File(benrenPath);
+        RequestBody fileBody2 = RequestBody.create(MediaType.parse("application/octet-stream") , mSavePhotoFile2);
         String file2Name =System.currentTimeMillis()+"testFile2.jpg";
 
 
@@ -739,7 +502,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                             jiaZaiDialog.dismiss();
                             jiaZaiDialog=null;
                         }
-                        Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                        Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER,0,0);
                         tastyToast.show();
                     }
@@ -777,7 +540,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                                 jiaZaiDialog.dismiss();
                                 jiaZaiDialog=null;
                             }
-                            Toast tastyToast= TastyToast.makeText(HuZhaoActivity.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
+                            Toast tastyToast= TastyToast.makeText(HuZhaoActivity2.this,"上传图片出错，请返回后重试！",TastyToast.LENGTH_LONG,TastyToast.ERROR);
                             tastyToast.setGravity(Gravity.CENTER,0,0);
                             tastyToast.show();
                         }
@@ -818,9 +581,9 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 .post(body)
                 .url(zhuji+ "/savePassportResult.do");
 
-        if (!HuZhaoActivity.this.isFinishing() && tiJIaoDialog==null  ){
-            tiJIaoDialog=new TiJIaoDialog(HuZhaoActivity.this);
-            if (!HuZhaoActivity.this.isFinishing())
+        if (!HuZhaoActivity2.this.isFinishing() && tiJIaoDialog==null  ){
+            tiJIaoDialog=new TiJIaoDialog(HuZhaoActivity2.this);
+            if (!HuZhaoActivity2.this.isFinishing())
             tiJIaoDialog.show();
         }
 
@@ -839,7 +602,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast tastyToast = TastyToast.makeText(HuZhaoActivity.this, "网络出错,请检查网络", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                        Toast tastyToast = TastyToast.makeText(HuZhaoActivity2.this, "网络出错,请检查网络", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                         tastyToast.setGravity(Gravity.CENTER, 0, 0);
                         tastyToast.show();
 
@@ -870,7 +633,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                                 @Override
                                 public void run() {
 
-                                    Toast tastyToast = TastyToast.makeText(HuZhaoActivity.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                                    Toast tastyToast = TastyToast.makeText(HuZhaoActivity2.this, "保存成功", TastyToast.LENGTH_LONG, TastyToast.INFO);
                                     tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                     tastyToast.show();
                                     finish();
@@ -884,7 +647,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                                 @Override
                                 public void run() {
 
-                                    Toast tastyToast = TastyToast.makeText(HuZhaoActivity.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                    Toast tastyToast = TastyToast.makeText(HuZhaoActivity2.this, "保存失败", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                                     tastyToast.setGravity(Gravity.CENTER, 0, 0);
                                     tastyToast.show();
 
@@ -903,7 +666,7 @@ public class HuZhaoActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void run() {
 
-                            Toast tastyToast = TastyToast.makeText(HuZhaoActivity.this, "网络出错,请检查网络", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                            Toast tastyToast = TastyToast.makeText(HuZhaoActivity2.this, "网络出错,请检查网络", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                             tastyToast.setGravity(Gravity.CENTER, 0, 0);
                             tastyToast.show();
 
